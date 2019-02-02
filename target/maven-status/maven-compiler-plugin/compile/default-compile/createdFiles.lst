@@ -1,1 +1,4 @@
 com\aazizova\springboottesttask\Application.class
+com\aazizova\springboottesttask\controller\Controller.class
+com\aazizova\springboottesttask\model\dao\ProductDAO.class
+com\aazizova\springboottesttask\model\entity\Product.class
