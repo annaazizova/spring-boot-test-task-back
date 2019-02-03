@@ -11,7 +11,7 @@ import javax.persistence.*;
  * Created by Anna on 02.02.2019.
  */
 @Entity
-@Table(name = "PRODUCT")
+@Table(name = "PRODUCTS")
 @ToString
 @EqualsAndHashCode
 public class Product {
@@ -36,6 +36,8 @@ public class Product {
     @Column(name = "QUANTITY")
     @Getter@Setter
     private String quantity;
+
+    private Product(){}
 
     public Product(String name, String brand, double price, String quantity) {
         this.name = name;
