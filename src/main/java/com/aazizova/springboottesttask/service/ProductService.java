@@ -10,11 +10,13 @@ import java.util.List;
 public interface ProductService {
     List<Product> retrieveProducts();
 
-    Product getProduct(Long productId);
+    Product getProductById(Long productId);
 
     void saveProduct(Product product);
 
-    void deleteProduct(Long productId);
+    void deleteProductById(Long productId);
 
     void updateProduct(Product product);
+
+    boolean isProductExist(Product product);
 }

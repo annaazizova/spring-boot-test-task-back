@@ -2,10 +2,11 @@ package com.aazizova.springboottesttask.controller;
 
 import com.aazizova.springboottesttask.model.entity.Product;
 import com.aazizova.springboottesttask.service.ProductService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,9 +15,8 @@ import java.util.List;
  * Created by Anna on 02.02.2019.
  */
 @RestController
+@Log4j2
 public class Controller {
-    private static final Logger logger = LogManager.getLogger(Controller.class);
-
     @Value("${spring.application.name}")
     String appName;
 
@@ -29,35 +29,60 @@ public class Controller {
     }
 
     @GetMapping("/api/products")
-    public List<Product> getProducts() {
+    public ResponseEntity<List<Product>> getProducts() {
+        log.info("Getting products");
         List<Product> products = productService.retrieveProducts();
-        return products;
+        if(products.isEmpty()){
+            log.info("There is no products");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/api/products/{productId}")
-    public Product getEmployee(@PathVariable(name="productId")Long productId) {
-        return productService.getProduct(productId);
+    public ResponseEntity<Product> getProduct(@PathVariable(name="productId")Long productId) {
+        log.info("Getting Product with id = [" + productId + "]");
+        Product product = productService.getProductById(productId);
+        if(product == null){
+            log.info("Product with id = [" + productId + "] not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @PostMapping("/api/products")
-    public void saveProduct(@RequestBody Product product){
+    @PostMapping(value = "/api/products")
+    public ResponseEntity<Void> saveProduct(@RequestBody Product product){
+        log.info("Saving Product = [" + product + "]");
+        if(productService.isProductExist(product)){
+            log.info("Product with name = [" + product.getName() + "] already exist");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         productService.saveProduct(product);
-        logger.info("Product Saved Successfully");
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/api/products/{productId}")
-    public void deleteProduct(@PathVariable(name="productId")Long productId){
-        productService.deleteProduct(productId);
-        logger.info("Product Deleted Successfully");
+    public ResponseEntity<Void> deleteProduct(@PathVariable(name="productId")Long productId){
+        log.info("Deleting Product with id = [" + productId + "]");
+        Product product = productService.getProductById(productId);
+        if(product == null){
+            log.info("Unable to delete product with id = [" + productId + "] because it's not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        productService.deleteProductById(productId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/api/products/{productId}")
-    public void updateProduct(@RequestBody Product product,
-                               @PathVariable(name="employeeId")Long productId){
-        Product prod = productService.getProduct(productId);
-        if(prod != null){
-            productService.updateProduct(product);
+    public ResponseEntity<Void> updateProduct(@RequestBody Product product,
+                               @PathVariable(name="productId")Long productId){
+        log.info("Updating Product with id = [" + productId + "]");
+        Product prod = productService.getProductById(productId);
+        if(prod == null){
+            log.info("Product with id = [" + productId + "] not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        logger.info("Product Updated Successfully");
+        productService.updateProduct(product);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

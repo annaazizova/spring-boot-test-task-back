@@ -24,9 +24,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProduct(Long productId) {
-        Optional<Product> optProduct = productRepository.findById(productId);
-        return optProduct.get();
+    public Product getProductById(Long productId) {
+        return productRepository.getProductById(productId);
     }
 
     @Override
@@ -35,12 +34,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(Long productId) {
+    public void deleteProductById(Long productId) {
         productRepository.deleteById(productId);
     }
 
     @Override
     public void updateProduct(Product product) {
         productRepository.save(product);
+    }
+
+    @Override
+    public boolean isProductExist(Product product) {
+        return productRepository.existsById(product.getId());
     }
 }
