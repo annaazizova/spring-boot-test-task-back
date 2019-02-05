@@ -32,18 +32,18 @@ public class Controller {
     public ResponseEntity<List<Product>> getProducts() {
         log.info("Getting products");
         List<Product> products = productService.retrieveProducts();
-        if(products.isEmpty()){
-            log.info("There is no products");
+        if (products.isEmpty()) {
+            log.info("There are no products");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/api/products/{productId}")
-    public ResponseEntity<Product> getProduct(@PathVariable(name="productId")Long productId) {
+    public ResponseEntity<Product> getProduct(@PathVariable(name = "productId") Long productId) {
         log.info("Getting Product with id = [" + productId + "]");
         Product product = productService.getProductById(productId);
-        if(product == null){
+        if (product == null) {
             log.info("Product with id = [" + productId + "] not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -51,9 +51,9 @@ public class Controller {
     }
 
     @PostMapping(value = "/api/products")
-    public ResponseEntity<Void> saveProduct(@RequestBody Product product){
+    public ResponseEntity<Void> saveProduct(@RequestBody Product product) {
         log.info("Saving Product = [" + product + "]");
-        if(productService.isProductExist(product)){
+        if (productService.isProductExist(product)) {
             log.info("Product with name = [" + product.getName() + "] already exist");
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -62,10 +62,10 @@ public class Controller {
     }
 
     @DeleteMapping("/api/products/{productId}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable(name="productId")Long productId){
+    public ResponseEntity<Void> deleteProduct(@PathVariable(name = "productId") Long productId) {
         log.info("Deleting Product with id = [" + productId + "]");
         Product product = productService.getProductById(productId);
-        if(product == null){
+        if (product == null) {
             log.info("Unable to delete product with id = [" + productId + "] because it's not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -75,10 +75,10 @@ public class Controller {
 
     @PutMapping("/api/products/{productId}")
     public ResponseEntity<Void> updateProduct(@RequestBody Product product,
-                               @PathVariable(name="productId")Long productId){
+                                              @PathVariable(name = "productId") Long productId) {
         log.info("Updating Product with id = [" + productId + "]");
         Product prod = productService.getProductById(productId);
-        if(prod == null){
+        if (prod == null) {
             log.info("Product with id = [" + productId + "] not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
