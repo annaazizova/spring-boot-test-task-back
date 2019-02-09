@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 public class Product {
     @Id
     @GeneratedValue
-    @NotNull
     private long id;
 
     private String name;

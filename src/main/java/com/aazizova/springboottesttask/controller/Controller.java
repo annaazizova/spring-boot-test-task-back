@@ -5,9 +5,11 @@ import com.aazizova.springboottesttask.service.ProductService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import java.util.List;
  */
 @RestController
 @Log4j2
+@CrossOrigin(origins = "http://localhost:3000")
 public class Controller {
     @Value("${spring.application.name}")
     String appName;
@@ -51,14 +54,12 @@ public class Controller {
     }
 
     @PostMapping(value = "/api/products")
-    public ResponseEntity<Void> saveProduct(@RequestBody Product product) {
+    public ResponseEntity<Void> addProduct(@RequestBody Product product, UriComponentsBuilder ucBuilder) {
         log.info("Saving Product = [" + product + "]");
-        if (productService.isProductExist(product)) {
-            log.info("Product with name = [" + product.getName() + "] already exist");
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        productService.saveProduct(product);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        productService.addProduct(product);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/api/products/{id}").buildAndExpand(product.getId()).toUri());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/api/products/{productId}")
