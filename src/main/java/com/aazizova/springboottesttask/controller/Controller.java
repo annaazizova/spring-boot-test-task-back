@@ -2,9 +2,12 @@ package com.aazizova.springboottesttask.controller;
 
 import com.aazizova.springboottesttask.model.entity.Product;
 import com.aazizova.springboottesttask.service.ProductService;
+import com.aazizova.springboottesttask.utils.ProductUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,9 @@ public class Controller {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    ProductUtils productUtils;
 
     @GetMapping("/")
     public String homePage() {
@@ -84,6 +90,17 @@ public class Controller {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         productService.updateProduct(product);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/api/products/export")
+    public ResponseEntity<Void> exportProducts(@RequestBody List<Product> products) {
+        log.info("products = [" + products + "]");
+        log.info("Exporting filtered products");
+        if (!productUtils.exportToXLS(products)) {
+            log.info("Can't export");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);//TODO change status
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
