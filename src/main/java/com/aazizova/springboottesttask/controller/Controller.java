@@ -7,12 +7,12 @@ import com.aazizova.springboottesttask.utils.ProductUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,12 +59,10 @@ public class Controller {
     }
 
     @PostMapping(value = "/api/products")
-    public ResponseEntity<Void> addProduct(@RequestBody Product product, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity addProduct(@RequestBody Product product) {
         log.info("Saving Product = [" + product + "]");
         productService.addProduct(product);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/products/{id}").buildAndExpand(product.getId()).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/api/products/{productId}")
@@ -82,7 +80,7 @@ public class Controller {
     @PutMapping("/api/products/{productId}")
     public ResponseEntity<Void> updateProduct(@RequestBody Product product,
                                               @PathVariable(name = "productId") Long productId) {
-        log.info("Updating Product with id = [" + productId + "]");
+        log.info("Updating Product =[" + product + "]");
         Product prod = productService.getProductById(productId);
         if (prod == null) {
             log.info("Product with id = [" + productId + "] not found");
@@ -98,7 +96,7 @@ public class Controller {
         log.info("Exporting filtered products");
         if (!productUtils.exportToXLS(products)) {
             log.info("Can't export");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);//TODO change status
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
