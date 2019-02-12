@@ -19,4 +19,6 @@ public interface ProductService {
     void updateProduct(Product product);
 
     boolean isProductExist(Product product);
+
+    List<Product> retrieveLeftovers();
 }

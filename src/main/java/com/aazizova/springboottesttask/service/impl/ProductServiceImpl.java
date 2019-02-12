@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by Anna on 03.02.2019.
@@ -19,8 +18,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> retrieveProducts() {
-        List<Product> products = productRepository.findAll();
-        return products;
+        return productRepository.findAll();
     }
 
     @Override
@@ -46,5 +44,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean isProductExist(Product product) {
         return productRepository.existsById(product.getId());
+    }
+
+    @Override
+    public List<Product> retrieveLeftovers() {
+        return productRepository.getLeftovers();
     }
 }

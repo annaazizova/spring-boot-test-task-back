@@ -1,13 +1,12 @@
 package com.aazizova.springboottesttask.controller;
 
 import com.aazizova.springboottesttask.model.entity.Product;
+import com.aazizova.springboottesttask.model.entity.User;
 import com.aazizova.springboottesttask.service.ProductService;
 import com.aazizova.springboottesttask.utils.ProductUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -102,5 +101,25 @@ public class Controller {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);//TODO change status
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/api/products/leftovers")
+    public ResponseEntity<List<Product>> getLeftovers() {
+        log.info("Getting products");
+        List<Product> leftovers = productService.retrieveLeftovers();
+        if (leftovers.isEmpty()) {
+            log.info("There are no leftovers");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(leftovers, HttpStatus.OK);
+    }
+
+    @PostMapping("/api/login")
+    public ResponseEntity<Void> login(@RequestBody User user) {
+        log.info("Login");
+        /*if (!user.isLoggedIn) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//check status
+        }*/
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);//check status
     }
 }

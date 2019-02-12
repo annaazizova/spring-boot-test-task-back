@@ -3,7 +3,6 @@ package com.aazizova.springboottesttask.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by Anna on 02.02.2019.
@@ -12,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @Table(name = "products")
 @NoArgsConstructor
+@AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue
@@ -23,9 +23,9 @@ public class Product {
 
     private double price;
 
-    private String quantity;
+    private long quantity;
 
-    public Product(String name, String brand, double price, String quantity) {
+    public Product(String name, String brand, double price, long quantity) {
         this.name = name;
         this.brand = brand;
         this.price = price;

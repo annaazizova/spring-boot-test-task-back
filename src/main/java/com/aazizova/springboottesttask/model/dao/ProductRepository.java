@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by Anna on 02.02.2019.
  */
@@ -20,6 +22,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Modifying
     @Query("DELETE FROM Product p WHERE p.id = :productId")
     void deleteById(@Param("productId") Long productId);
+
+    @Query("SELECT p FROM Product p WHERE p.quantity < 5")
+    List<Product> getLeftovers();
 
 
 }
