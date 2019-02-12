@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +32,9 @@ public class Controller {
     @Autowired
     ProductUtils productUtils;
 
-    @GetMapping("/")
-    public String homePage() {
-        return appName;
+    @RequestMapping(value = "/user")
+    public Principal user(Principal principal){
+        return principal;
     }
 
     @GetMapping("/api/products")
