@@ -17,7 +17,7 @@ public class ProductUtils {
     public boolean exportToXLS(List<Product> products) {
         String[] columns = { "Id", "Name", "Brand", "Price", "Quantity" };
         try {
-            try (Workbook workbook = new HSSFWorkbook(); FileOutputStream fileOut = new FileOutputStream("filtered_products.xls");) {
+            try (Workbook workbook = new HSSFWorkbook(); FileOutputStream fileOut = new FileOutputStream("filtered_products.xls")) {
                 Sheet sheet = workbook.createSheet("Users");
 
                 Font headerFont = workbook.createFont();

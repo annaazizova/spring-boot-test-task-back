@@ -1,16 +1,22 @@
 package com.aazizova.springboottesttask.controller;
 
-import com.aazizova.springboottesttask.service.ProductService;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 /**
@@ -24,10 +30,7 @@ public class ControllerTest {
     private Controller controller;
 
     @Autowired
-    private org.springframework.test.web.servlet.MockMvc mockMVC;
-
-    @MockBean
-    private ProductService productService;
+    private MockMvc mockMVC;
 
     @Test
     public void contextLoads() throws Exception {
@@ -35,12 +38,18 @@ public class ControllerTest {
     }
 
     @Test
-    public void returnAppName() throws Exception {
-        this.mockMVC.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/")).andExpect(content().string("Spring Boot Test Task"));
+    public void getAllProductsTest() throws Exception {
+        User user = new User("username", "password", new ArrayList<SimpleGrantedAuthority>(){{add(new SimpleGrantedAuthority("USER_ROLE"));}});
+        TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user, null, "ROLE_ADMIN");
+        SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
+        this.mockMVC.perform(get("/api/products"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void getAllProductsTest() throws Exception {
-
+    public void givenNoToken_whenGetSecureRequest_thenUnauthorized() throws Exception {
+        mockMVC.perform(get("/api/products"))
+                .andExpect(redirectedUrl("http://localhost/login"))
+                .andExpect(status().isFound());
     }
 }
