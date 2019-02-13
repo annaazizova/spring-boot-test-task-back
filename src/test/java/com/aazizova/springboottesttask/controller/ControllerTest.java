@@ -1,7 +1,5 @@
 package com.aazizova.springboottesttask.controller;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,21 +7,24 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 /**
  * Created by Anna on 12.02.2019.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest()
 @AutoConfigureMockMvc
 public class ControllerTest {
     @Autowired
@@ -39,10 +40,11 @@ public class ControllerTest {
 
     @Test
     public void getAllProductsTest() throws Exception {
-        User user = new User("username", "password", new ArrayList<SimpleGrantedAuthority>(){{add(new SimpleGrantedAuthority("USER_ROLE"));}});
-        TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user, null, "ROLE_ADMIN");
+        User user = new User("username", "password", new ArrayList<>());
+        TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user, null, "ROLE_USER");//ROLE_ADMIN
         SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
         this.mockMVC.perform(get("/api/products"))
+                .andDo(print())
                 .andExpect(status().isOk());
     }
 
