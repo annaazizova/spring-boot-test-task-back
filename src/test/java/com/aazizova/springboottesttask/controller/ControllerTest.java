@@ -19,10 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-/**
- * Created by Anna on 12.02.2019.
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest()
 @AutoConfigureMockMvc

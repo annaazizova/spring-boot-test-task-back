@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-/**
- * Created by Anna on 02.02.2019.
- */
 @RestController
 @Log4j2
 //@CrossOrigin(origins = "http://localhost:3000")

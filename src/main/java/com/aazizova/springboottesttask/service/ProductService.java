@@ -4,9 +4,6 @@ import com.aazizova.springboottesttask.model.entity.Product;
 
 import java.util.List;
 
-/**
- * Created by Anna on 03.02.2019.
- */
 public interface ProductService {
     List<Product> retrieveProducts();
 

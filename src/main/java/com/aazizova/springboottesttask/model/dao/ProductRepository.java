@@ -10,9 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Created by Anna on 02.02.2019.
- */
 @Transactional
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {

@@ -9,9 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by Anna on 10.02.2019.
- */
 @Component
 public class ProductUtils {
     public boolean exportToXLS(List<Product> products) {

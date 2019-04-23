@@ -4,9 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 
-/**
- * Created by Anna on 02.02.2019.
- */
 @Entity
 @Data
 @Table(name = "products")
