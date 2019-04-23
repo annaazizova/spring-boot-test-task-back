@@ -9,9 +9,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-/**
- * Created by Anna on 13.02.2019.
- */
 @EnableOAuth2Sso
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
