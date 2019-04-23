@@ -1,9 +1,0 @@
-com\aazizova\springboottesttask\service\impl\ProductServiceImpl.class
-com\aazizova\springboottesttask\controller\Controller.class
-com\aazizova\springboottesttask\Application.class
-com\aazizova\springboottesttask\config\SecurityConfig.class
-com\aazizova\springboottesttask\model\entity\User.class
-com\aazizova\springboottesttask\model\entity\Product.class
-com\aazizova\springboottesttask\utils\ProductUtils.class
-com\aazizova\springboottesttask\model\dao\ProductRepository.class
-com\aazizova\springboottesttask\service\ProductService.class
