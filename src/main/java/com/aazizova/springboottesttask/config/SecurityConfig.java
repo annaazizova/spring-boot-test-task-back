@@ -20,12 +20,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable()
-                .antMatcher("/**")
+                /*.antMatcher("/**")
                 .authorizeRequests()
                 .antMatchers("/", "/index.html", "actuator/**")
                 .permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated()*/
+                .authorizeRequests()
+                .anyRequest()
+                .permitAll();
     }
 
     @Bean
