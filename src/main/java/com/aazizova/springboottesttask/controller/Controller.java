@@ -147,7 +147,7 @@ public class Controller {
                     .build();
         }
         log.info("User has no access");
-        return createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");*/
+        return createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
     }
 
     private Entity createErrorEntity(HttpStatus httpStatus, String message) {
@@ -165,7 +165,7 @@ public class Controller {
                 .addProperty(Product.FIELD_NAME, product.getName())
                 .addProperty(Product.FIELD_BRAND, product.getBrand())
                 .addProperty(Product.FIELD_PRICE, product.getPrice())
-                .addProperty(Product.FIELD_QUANTITY, product.getQuantity())
+                .addProperty(Product.FIELD_QUANTITY, product.getQuantity())//TODO add link
                 .build();
     }
 
