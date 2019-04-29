@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "products")
 @NoArgsConstructor
 @AllArgsConstructor
-@Siren4JEntity(entityClass = "product", uri = "/api/products/{productId}")
+@Siren4JEntity(entityClass = "product", uri = "/api/products/{id}")
 @FieldNameConstants
 public class Product {
     @Id

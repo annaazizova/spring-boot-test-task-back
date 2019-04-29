@@ -59,16 +59,16 @@ public class Controller {
     @GetMapping("/api/products/{productId}")
     public Entity getProduct(@PathVariable(name = "productId") Long productId) throws Siren4JException {//TODO add exception handling
         log.info("Getting Product with id = [" + productId + "]");
-        if(isUserHasAccess()){
+        //if(isUserHasAccess()){
             Product product = productService.getProductById(productId);
             if (product == null) {
                 log.info("Product with id = [" + productId + "] not found");
                 return createErrorEntity(HttpStatus.NOT_FOUND, "Product with id = [" + productId + "] not found");
             }
             return ReflectingConverter.newInstance().toEntity(product);
-        }
+        /*}
         log.info("User has no access");
-        return createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
+        return createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");*/
     }
 
     @PostMapping(value = "/api/products")
