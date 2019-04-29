@@ -1,5 +1,6 @@
 package com.aazizova.springboottesttask.controller;
 
+import com.aazizova.springboottesttask.utils.builder.LinkBuilder;
 import com.aazizova.springboottesttask.model.entity.Product;
 import com.aazizova.springboottesttask.service.ProductService;
 import com.aazizova.springboottesttask.utils.ProductUtils;
@@ -14,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,23 +31,24 @@ public class Controller {
     @Autowired
     ProductUtils productUtils;
 
+    @Autowired
+    LinkBuilder linkBuilder;
+
     @RequestMapping(value = "/user")
     public Principal user(Principal principal){
         return principal;
     }
 
     @GetMapping("/api/products")
-    public Entity getProducts() throws Siren4JException {
-
+    public Entity getProducts(HttpServletRequest request) throws Siren4JException {
         log.info("Getting products");
-
         if(isUserHasAccess()) {
             List<Product> products = productService.retrieveProducts();
             if (products.isEmpty()) {
                 log.info("There are no products");
                 return createErrorEntity(HttpStatus.NO_CONTENT, "There are no products");
             }
-            final List<Entity> productEntities = products.stream().map(this::buildProductEntity).collect(Collectors.toList());
+            final List<Entity> productEntities = products.stream().map(product -> buildProductEntity(product, request)).collect(Collectors.toList());
 
             return EntityBuilder.newInstance()
                     .setComponentClass("products")
@@ -59,16 +62,16 @@ public class Controller {
     @GetMapping("/api/products/{productId}")
     public Entity getProduct(@PathVariable(name = "productId") Long productId) throws Siren4JException {//TODO add exception handling
         log.info("Getting Product with id = [" + productId + "]");
-        //if(isUserHasAccess()){
+        if(isUserHasAccess()){
             Product product = productService.getProductById(productId);
             if (product == null) {
                 log.info("Product with id = [" + productId + "] not found");
                 return createErrorEntity(HttpStatus.NOT_FOUND, "Product with id = [" + productId + "] not found");
             }
             return ReflectingConverter.newInstance().toEntity(product);
-        /*}
+        }
         log.info("User has no access");
-        return createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");*/
+        return createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
     }
 
     @PostMapping(value = "/api/products")
@@ -131,7 +134,7 @@ public class Controller {
     }
 
     @GetMapping("/api/products/leftovers")
-    public Entity getLeftovers() {
+    public Entity getLeftovers(HttpServletRequest request) {
         log.info("Getting products");
         if(isUserHasAccess()){
             List<Product> leftovers = productService.retrieveLeftovers();
@@ -139,7 +142,7 @@ public class Controller {
                 log.info("There are no leftovers");
                 return createErrorEntity(HttpStatus.NO_CONTENT, "There are no leftovers");
             }
-            final List<Entity> leftoversEntities = leftovers.stream().map(this::buildProductEntity).collect(Collectors.toList());
+            final List<Entity> leftoversEntities = leftovers.stream().map(product -> buildProductEntity(product, request)).collect(Collectors.toList());
 
             return EntityBuilder.newInstance()
                     .setComponentClass("leftovers")
@@ -150,7 +153,7 @@ public class Controller {
         return createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
     }
 
-    private Entity createErrorEntity(HttpStatus httpStatus, String message) {
+    private Entity createErrorEntity(HttpStatus httpStatus, String message) { //TODO move entity creation to another class
         return EntityBuilder.newInstance()
                 .setComponentClass("error")
                 .addProperty("status", httpStatus)
@@ -159,13 +162,15 @@ public class Controller {
                 .build();
     }
 
-    private Entity buildProductEntity(Product product) {
+    private Entity buildProductEntity(Product product, HttpServletRequest request) {
         return EntityBuilder.newInstance().setRelationship("product")
                 .addProperty(Product.FIELD_ID, product.getId())
                 .addProperty(Product.FIELD_NAME, product.getName())
                 .addProperty(Product.FIELD_BRAND, product.getBrand())
                 .addProperty(Product.FIELD_PRICE, product.getPrice())
-                .addProperty(Product.FIELD_QUANTITY, product.getQuantity())//TODO add link
+                .addProperty(Product.FIELD_QUANTITY, product.getQuantity())
+                .addLink(linkBuilder.createProductLink(product, request))
+                //TODO add actions
                 .build();
     }
 

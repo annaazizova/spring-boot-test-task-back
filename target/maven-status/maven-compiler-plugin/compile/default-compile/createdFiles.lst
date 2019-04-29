@@ -1,6 +1,7 @@
 com\aazizova\springboottesttask\model\dao\ProductRepository.class
 com\aazizova\springboottesttask\service\impl\ProductServiceImpl.class
 com\aazizova\springboottesttask\controller\Controller.class
+com\aazizova\springboottesttask\utils\builder\LinkBuilder.class
 com\aazizova\springboottesttask\Application.class
 com\aazizova\springboottesttask\service\ProductService.class
 com\aazizova\springboottesttask\config\SecurityConfig.class
