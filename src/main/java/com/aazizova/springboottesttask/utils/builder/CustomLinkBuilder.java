@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import static com.google.code.siren4j.component.builder.LinkBuilder.createLinkBuilder;
 
 @Component
-public class LinkBuilder {
+public class CustomLinkBuilder {
     private static final String SELF_REL = "self";
 
     public Link createProductLink(Product product, HttpServletRequest httpServletRequest) {

@@ -1,8 +1,10 @@
 C:\111\spring_boot_test_task_back\src\main\java\com\aazizova\springboottesttask\service\ProductService.java
 C:\111\spring_boot_test_task_back\src\main\java\com\aazizova\springboottesttask\config\SecurityConfig.java
+C:\111\spring_boot_test_task_back\src\main\java\com\aazizova\springboottesttask\utils\builder\EntityBuilder.java
 C:\111\spring_boot_test_task_back\src\main\java\com\aazizova\springboottesttask\model\entity\Product.java
 C:\111\spring_boot_test_task_back\src\main\java\com\aazizova\springboottesttask\model\dao\ProductRepository.java
 C:\111\spring_boot_test_task_back\src\main\java\com\aazizova\springboottesttask\controller\Controller.java
 C:\111\spring_boot_test_task_back\src\main\java\com\aazizova\springboottesttask\service\impl\ProductServiceImpl.java
 C:\111\spring_boot_test_task_back\src\main\java\com\aazizova\springboottesttask\utils\ProductUtils.java
 C:\111\spring_boot_test_task_back\src\main\java\com\aazizova\springboottesttask\Application.java
+C:\111\spring_boot_test_task_back\src\main\java\com\aazizova\springboottesttask\utils\builder\LinkBuilder.java
