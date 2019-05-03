@@ -142,12 +142,7 @@ public class Controller {
                 log.info("There are no leftovers");
                 return customEntityBuilder.buildErrorEntity(HttpStatus.NO_CONTENT, "There are no leftovers");
             }
-            final List<Entity> leftoversEntities = leftovers.stream().map(product -> customEntityBuilder.buildProductEntity(product, request)).collect(Collectors.toList());
-
-            return EntityBuilder.newInstance()
-                    .setComponentClass("leftovers")
-                    .addSubEntities(leftoversEntities)
-                    .build();
+            return customEntityBuilder.buildLeftoversEntity(leftovers, request);
         }
         log.info("User has no access");
         return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");

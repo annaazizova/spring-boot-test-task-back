@@ -9,6 +9,9 @@ import com.google.code.siren4j.component.Entity;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.google.code.siren4j.component.builder.EntityBuilder.createEntityBuilder;
 
 @Component
@@ -35,6 +38,14 @@ public class CustomEntityBuilder {
                 .addProperty(Product.FIELD_QUANTITY, product.getQuantity())
                 .addLink(customLinkBuilder.createProductLink(product, request))
                 //TODO add actions
+                .build();
+    }
+
+    public Entity buildLeftoversEntity(List<Product> leftovers, HttpServletRequest request) {
+        final List<Entity> leftoversEntities = leftovers.stream().map(product -> buildProductEntity(product, request)).collect(Collectors.toList());
+        return EntityBuilder.newInstance()
+                .setComponentClass("leftovers")
+                .addSubEntities(leftoversEntities)
                 .build();
     }
 }
