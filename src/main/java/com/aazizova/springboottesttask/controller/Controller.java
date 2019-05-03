@@ -1,10 +1,9 @@
 package com.aazizova.springboottesttask.controller;
 
-import com.aazizova.springboottesttask.utils.builder.CustomEntityBuilder;
-import com.aazizova.springboottesttask.utils.builder.CustomLinkBuilder;
 import com.aazizova.springboottesttask.model.entity.Product;
 import com.aazizova.springboottesttask.service.ProductService;
 import com.aazizova.springboottesttask.utils.ProductUtils;
+import com.aazizova.springboottesttask.utils.builder.CustomEntityBuilder;
 import com.google.code.siren4j.component.Entity;
 import com.google.code.siren4j.component.builder.EntityBuilder;
 import com.google.code.siren4j.converter.ReflectingConverter;
@@ -35,9 +34,6 @@ public class Controller {
     @Autowired
     CustomEntityBuilder customEntityBuilder;
 
-    @Autowired
-    CustomLinkBuilder customLinkBuilder;
-
     @RequestMapping(value = "/user")
     public Principal user(Principal principal){
         return principal;
@@ -50,9 +46,9 @@ public class Controller {
             List<Product> products = productService.retrieveProducts();
             if (products.isEmpty()) {
                 log.info("There are no products");
-                return customEntityBuilder.createErrorEntity(HttpStatus.NO_CONTENT, "There are no products");
+                return customEntityBuilder.buildErrorEntity(HttpStatus.NO_CONTENT, "There are no products");
             }
-            final List<Entity> productEntities = products.stream().map(product -> buildProductEntity(product, request)).collect(Collectors.toList());
+            final List<Entity> productEntities = products.stream().map(product -> customEntityBuilder.buildProductEntity(product, request)).collect(Collectors.toList());
 
             return EntityBuilder.newInstance()
                     .setComponentClass("products")
@@ -60,7 +56,7 @@ public class Controller {
                     .build();
         }
         log.info("User has no access");
-        return customEntityBuilder.createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
+        return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
     }
 
     @GetMapping("/api/products/{productId}")
@@ -70,12 +66,12 @@ public class Controller {
             Product product = productService.getProductById(productId);
             if (product == null) {
                 log.info("Product with id = [" + productId + "] not found");
-                return customEntityBuilder.createErrorEntity(HttpStatus.NOT_FOUND, "Product with id = [" + productId + "] not found");
+                return customEntityBuilder.buildErrorEntity(HttpStatus.NOT_FOUND, "Product with id = [" + productId + "] not found");
             }
             return ReflectingConverter.newInstance().toEntity(product);
         }
         log.info("User has no access");
-        return customEntityBuilder.createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
+        return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
     }
 
     @PostMapping(value = "/api/products")
@@ -86,7 +82,7 @@ public class Controller {
             return ReflectingConverter.newInstance().toEntity(product);
         }
         log.info("User has no access");
-        return customEntityBuilder.createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
+        return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
     }
 
     @DeleteMapping("/api/products/{productId}")
@@ -96,13 +92,13 @@ public class Controller {
             Product product = productService.getProductById(productId);
             if (product == null) {
                 log.info("Unable to delete product with id = [" + productId + "] because it's not found");
-                return customEntityBuilder.createErrorEntity(HttpStatus.NOT_FOUND, "Unable to delete product with id = [" + productId + "] because it's not found");
+                return customEntityBuilder.buildErrorEntity(HttpStatus.NOT_FOUND, "Unable to delete product with id = [" + productId + "] because it's not found");
             }
             productService.deleteProductById(productId);
             return null;//TODO response HttpStatus.NO_CONTENT)
         }
         log.info("User has no access");
-        return customEntityBuilder.createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
+        return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
     }
 
     @PutMapping("/api/products/{productId}")
@@ -113,13 +109,13 @@ public class Controller {
             Product prod = productService.getProductById(productId);
             if (prod == null) {
                 log.info("Product with id = [" + productId + "] not found");
-                return customEntityBuilder.createErrorEntity(HttpStatus.NOT_FOUND, "Product with id = [" + productId + "] not found");
+                return customEntityBuilder.buildErrorEntity(HttpStatus.NOT_FOUND, "Product with id = [" + productId + "] not found");
             }
             productService.updateProduct(product);
             return null;//TODO response HttpStatus.OK
         }
         log.info("User has no access");
-        return customEntityBuilder.createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
+        return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
     }
 
     @PostMapping("/api/products/export")
@@ -129,12 +125,12 @@ public class Controller {
         if(isUserHasAccess()){
             if (!productUtils.exportToXLS(products)) {
                 log.info("Can't export");
-                return customEntityBuilder.createErrorEntity(HttpStatus.NO_CONTENT, "Can't export");
+                return customEntityBuilder.buildErrorEntity(HttpStatus.NO_CONTENT, "Can't export");
             }
             return null;//TODO response HttpStatus.OK
         }
         log.info("User has no access");
-        return customEntityBuilder.createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
+        return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
     }
 
     @GetMapping("/api/products/leftovers")
@@ -144,9 +140,9 @@ public class Controller {
             List<Product> leftovers = productService.retrieveLeftovers();
             if (leftovers.isEmpty()) {
                 log.info("There are no leftovers");
-                return customEntityBuilder.createErrorEntity(HttpStatus.NO_CONTENT, "There are no leftovers");
+                return customEntityBuilder.buildErrorEntity(HttpStatus.NO_CONTENT, "There are no leftovers");
             }
-            final List<Entity> leftoversEntities = leftovers.stream().map(product -> buildProductEntity(product, request)).collect(Collectors.toList());
+            final List<Entity> leftoversEntities = leftovers.stream().map(product -> customEntityBuilder.buildProductEntity(product, request)).collect(Collectors.toList());
 
             return EntityBuilder.newInstance()
                     .setComponentClass("leftovers")
@@ -154,19 +150,7 @@ public class Controller {
                     .build();
         }
         log.info("User has no access");
-        return customEntityBuilder.createErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
-    }
-
-    private Entity buildProductEntity(Product product, HttpServletRequest request) {
-        return EntityBuilder.newInstance().setRelationship("product")
-                .addProperty(Product.FIELD_ID, product.getId())
-                .addProperty(Product.FIELD_NAME, product.getName())
-                .addProperty(Product.FIELD_BRAND, product.getBrand())
-                .addProperty(Product.FIELD_PRICE, product.getPrice())
-                .addProperty(Product.FIELD_QUANTITY, product.getQuantity())
-                .addLink(customLinkBuilder.createProductLink(product, request))
-                //TODO add actions
-                .build();
+        return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
     }
 
     private boolean isUserHasAccess() {
