@@ -5,7 +5,6 @@ import com.aazizova.springboottesttask.service.ProductService;
 import com.aazizova.springboottesttask.utils.ProductUtils;
 import com.aazizova.springboottesttask.utils.builder.CustomEntityBuilder;
 import com.google.code.siren4j.component.Entity;
-import com.google.code.siren4j.component.builder.EntityBuilder;
 import com.google.code.siren4j.converter.ReflectingConverter;
 import com.google.code.siren4j.error.Siren4JException;
 import lombok.extern.log4j.Log4j2;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Log4j2
@@ -91,7 +89,7 @@ public class Controller {
                 return customEntityBuilder.buildErrorEntity(HttpStatus.NOT_FOUND, "Unable to delete product with id = [" + productId + "] because it's not found");
             }
             productService.deleteProductById(productId);
-            return null;//TODO response HttpStatus.NO_CONTENT)
+            return customEntityBuilder.buildSuccessEntity();
         }
         log.info("User has no access");
         return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
@@ -108,7 +106,7 @@ public class Controller {
                 return customEntityBuilder.buildErrorEntity(HttpStatus.NOT_FOUND, "Product with id = [" + productId + "] not found");
             }
             productService.updateProduct(product);
-            return null;//TODO response HttpStatus.OK
+            return customEntityBuilder.buildSuccessEntity();
         }
         log.info("User has no access");
         return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
@@ -123,7 +121,7 @@ public class Controller {
                 log.info("Can't export");
                 return customEntityBuilder.buildErrorEntity(HttpStatus.NO_CONTENT, "Can't export");
             }
-            return null;//TODO response HttpStatus.OK
+            return customEntityBuilder.buildSuccessEntity();
         }
         log.info("User has no access");
         return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");

@@ -33,6 +33,15 @@ public class CustomEntityBuilder {
                 .build();
     }
 
+    public Entity buildSuccessEntity() {
+        return createEntityBuilder()
+                .setComponentClass("response")
+                .addProperty("status", HttpStatus.OK)
+                .addProperty("code", HttpStatus.OK.value())
+                .addProperty("message", "Success")
+                .build();
+    }
+
     public Entity buildProductEntity(Product product, HttpServletRequest request) {
         return EntityBuilder.newInstance().setRelationship("product")
                 .addProperty(Product.FIELD_ID, product.getId())
@@ -40,7 +49,7 @@ public class CustomEntityBuilder {
                 .addProperty(Product.FIELD_BRAND, product.getBrand())
                 .addProperty(Product.FIELD_PRICE, product.getPrice())
                 .addProperty(Product.FIELD_QUANTITY, product.getQuantity())
-                .addLink(customLinkBuilder.createProductLink(product, request))
+                .addLink(customLinkBuilder. createProductLink(product, request))
                 .build();
     }
 
