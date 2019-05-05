@@ -1,6 +1,7 @@
 package com.aazizova.springboottesttask.utils.builder;
 
 import com.aazizova.springboottesttask.model.entity.Product;
+import com.google.code.siren4j.component.Action;
 import com.google.code.siren4j.component.builder.EntityBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ public class CustomEntityBuilder {
     @Autowired
     CustomLinkBuilder customLinkBuilder;
 
+    @Autowired
+    CustomActionBuilder customActionBuilder;
+
     public Entity buildErrorEntity(HttpStatus httpStatus, String message) {
         return createEntityBuilder()
                 .setComponentClass("error")
@@ -37,15 +41,15 @@ public class CustomEntityBuilder {
                 .addProperty(Product.FIELD_PRICE, product.getPrice())
                 .addProperty(Product.FIELD_QUANTITY, product.getQuantity())
                 .addLink(customLinkBuilder.createProductLink(product, request))
-                //TODO add actions
                 .build();
     }
 
-    public Entity buildLeftoversEntity(List<Product> leftovers, HttpServletRequest request) {
-        final List<Entity> leftoversEntities = leftovers.stream().map(product -> buildProductEntity(product, request)).collect(Collectors.toList());
+    public Entity buildProductsEntity(List<Product> products, HttpServletRequest request, String type) {
+        final List<Entity> productsEntities = products.stream().map(product -> buildProductEntity(product, request)).collect(Collectors.toList());
         return EntityBuilder.newInstance()
-                .setComponentClass("leftovers")
-                .addSubEntities(leftoversEntities)
+                .setComponentClass(type)
+                .addSubEntities(productsEntities)
+                .addActions(customActionBuilder.buildActions())
                 .build();
     }
 }

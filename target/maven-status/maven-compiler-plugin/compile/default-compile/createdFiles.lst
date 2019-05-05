@@ -5,6 +5,7 @@ com\aazizova\springboottesttask\Application.class
 com\aazizova\springboottesttask\utils\builder\CustomEntityBuilder.class
 com\aazizova\springboottesttask\service\ProductService.class
 com\aazizova\springboottesttask\config\SecurityConfig.class
+com\aazizova\springboottesttask\utils\builder\CustomActionBuilder.class
 com\aazizova\springboottesttask\model\entity\Product.class
 com\aazizova\springboottesttask\utils\ProductUtils.class
 com\aazizova\springboottesttask\utils\builder\CustomLinkBuilder.class

@@ -48,12 +48,8 @@ public class Controller {
                 log.info("There are no products");
                 return customEntityBuilder.buildErrorEntity(HttpStatus.NO_CONTENT, "There are no products");
             }
-            final List<Entity> productEntities = products.stream().map(product -> customEntityBuilder.buildProductEntity(product, request)).collect(Collectors.toList());
 
-            return EntityBuilder.newInstance()
-                    .setComponentClass("products")
-                    .addSubEntities(productEntities)
-                    .build();
+            return customEntityBuilder.buildProductsEntity(products, request, "products");
         }
         log.info("User has no access");
         return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
@@ -142,7 +138,7 @@ public class Controller {
                 log.info("There are no leftovers");
                 return customEntityBuilder.buildErrorEntity(HttpStatus.NO_CONTENT, "There are no leftovers");
             }
-            return customEntityBuilder.buildLeftoversEntity(leftovers, request);
+            return customEntityBuilder.buildProductsEntity(leftovers, request, "leftovers");
         }
         log.info("User has no access");
         return customEntityBuilder.buildErrorEntity(HttpStatus.FORBIDDEN, "User has no access");
