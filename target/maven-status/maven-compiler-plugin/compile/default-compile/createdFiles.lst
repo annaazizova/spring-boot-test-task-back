@@ -3,14 +3,15 @@ com\aazizova\springboottesttask\model\entity\CustomUser.class
 com\aazizova\springboottesttask\model\entity\Role.class
 com\aazizova\springboottesttask\service\impl\ProductServiceImpl.class
 com\aazizova\springboottesttask\controller\Controller.class
+com\aazizova\springboottesttask\config\AuthServerConfig.class
 com\aazizova\springboottesttask\service\impl\UserServiceImpl.class
 com\aazizova\springboottesttask\Application.class
 com\aazizova\springboottesttask\model\entity\Privilege.class
 com\aazizova\springboottesttask\model\dao\UserRepository.class
 com\aazizova\springboottesttask\service\UserService.class
+com\aazizova\springboottesttask\config\AuthServerConfig$1.class
 com\aazizova\springboottesttask\service\ProductService.class
 com\aazizova\springboottesttask\config\SecurityConfig.class
 com\aazizova\springboottesttask\model\entity\User.class
-com\aazizova\springboottesttask\config\OAuth2Config.class
 com\aazizova\springboottesttask\model\entity\Product.class
 com\aazizova\springboottesttask\utils\ProductUtils.class
