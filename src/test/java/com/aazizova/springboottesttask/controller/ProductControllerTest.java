@@ -22,16 +22,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest()
 @AutoConfigureMockMvc
-public class ControllerTest {
+public class ProductControllerTest {
     @Autowired
-    private Controller controller;
+    private ProductController productController;
 
     @Autowired
     private MockMvc mockMVC;
 
     @Test
     public void contextLoads() throws Exception {
-        assertThat(controller).isNotNull();
+        assertThat(productController).isNotNull();
     }
 
     @Test
