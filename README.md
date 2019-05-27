@@ -4,7 +4,8 @@ This project is simple inventory system.
 
 The front part of this app is [spring_boot_test_task_front](https://github.com/annaazizova/spring_boot_test_task_front)
 
-### Tech/framework used
+## Tech/framework used
+
 <ul>
   <li>Java 8</li>
   <li>Spring Boot 2</li>
@@ -18,7 +19,8 @@ The front part of this app is [spring_boot_test_task_front](https://github.com/a
 **Built with**
 [Maven](https://maven.apache.org/)
 
-### Features
+## Features
+
 User is able to
 <ul>
   <li>create, find, update, remove product</li>
@@ -27,9 +29,11 @@ User is able to
   
 </ul>
 
-### How to use?
+## How to use?
 
-### HTTP RESTful API
+Run maven app with `spring-boot:run` command on [http://localhost:8080](http://localhost:8080)
+
+## HTTP RESTful API
 Available entry points:
 <ul>
   <li>
@@ -40,6 +44,3 @@ Available entry points:
   </li>
 etc
 </ul>
-
-
-
