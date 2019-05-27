@@ -11,7 +11,8 @@ The front part of this app is [spring_boot_test_task_front](https://github.com/a
   <li>Oauth2</li>
   <li>JWT</li>
   <li>H2</li>
-  <li>Siren4J</li>
+  <li>Siren4J (feat/siren branch)</li>
+  <li>Lombok</li>
 </ul>
 
 **Built with**
@@ -27,5 +28,18 @@ User is able to
 </ul>
 
 ### How to use?
+
+### HTTP RESTful API
+Available entry points:
+<ul>
+  <li>
+    <code>GET /api/products</code>: returns all existing products
+  </li>
+  <li>
+    <code>GET /api/products/{productId}</code>: returns product details
+  </li>
+etc
+</ul>
+
 
 
