@@ -1,6 +1,8 @@
 package com.aazizova.springboottesttask.model.entity;
 
+import com.google.code.siren4j.annotations.Siren4JEntity;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.*;
 
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Table(name = "products")
 @NoArgsConstructor
 @AllArgsConstructor
+@Siren4JEntity(entityClass = "product", uri = "/api/products/{id}")
+@FieldNameConstants
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
