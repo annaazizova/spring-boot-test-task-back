@@ -1,4 +1,4 @@
-This project is simple inventory system.
+This project is simple inventory system with different available functionality depending on user role.
 
 ## Front
 
@@ -9,10 +9,10 @@ The front part of this app is [spring_boot_test_task_front](https://github.com/a
 <ul>
   <li>Java 8</li>
   <li>Spring Boot 2</li>
-  <li>Basic auth ([https://github.com/annaazizova/spring_boot_test_task_back/tree/feat/security](feat/security) branch)</li>
-  <li>JWT ([feat/jwt](https://github.com/annaazizova/spring_boot_test_task_back/tree/feat/jwt) branch)</li>
+  <li>Basic auth (feat/security branch)</li>
+  <li>JWT (feat/jwt branch)</li>
   <li>H2</li>
-  <li>Siren4J ([feat/siren](https://github.com/annaazizova/spring_boot_test_task_back/tree/feat/siren) branch)</li>
+  <li>Siren4J (feat/siren branch)</li>
   <li>Lombok</li>
 </ul>
 
@@ -26,7 +26,7 @@ User is able to
   <li>create, find, update, remove product</li>
   <li>see all leftovers</li>
   <li>export search result an an xlsx file</li>
-  <li>healthcheck on [http://localhost:8080/healthcheck](http://localhost:8080/healthcheck) (available without authorization)</li>
+  <li>healthcheck on http://localhost:8080/healthcheck (available without authorization)</li>
 </ul>
 
 ## How to use?
@@ -42,5 +42,5 @@ Available entry points:
   <li>
     <code>GET /api/products/{productId}</code>: returns product details
   </li>
-etc
+  etc
 </ul>
