@@ -14,6 +14,7 @@ The front part of this app is [spring_boot_test_task_front](https://github.com/a
   <li>H2</li>
   <li>Siren4J</li>
   <li>Lombok</li>
+  <li>Swagger2</li>
 </ul>
 
 **Built with**
@@ -27,6 +28,7 @@ User is able to
   <li>see all leftovers</li>
   <li>export search result an an xlsx file</li>
   <li>healthcheck on <a href="http://localhost:8080/healthcheck">http://localhost:8080/healthcheck</a> (available without authorization)</li>
+  <li>api documentation on <a href="http://localhost:8080/swagger-ui.html">http://localhost:8080/swagger-ui.html</a> (available without authorization)</li>
 </ul>
 
 ## How to use?
