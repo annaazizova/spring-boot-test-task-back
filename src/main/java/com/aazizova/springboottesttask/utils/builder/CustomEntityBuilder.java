@@ -1,15 +1,13 @@
 package com.aazizova.springboottesttask.utils.builder;
 
 import com.aazizova.springboottesttask.model.entity.Product;
-import com.google.code.siren4j.component.Action;
+import com.google.code.siren4j.component.Entity;
 import com.google.code.siren4j.component.builder.EntityBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import com.google.code.siren4j.component.Entity;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
