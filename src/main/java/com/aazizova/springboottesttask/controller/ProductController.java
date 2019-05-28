@@ -24,7 +24,7 @@ public class ProductController {
     @Autowired
     ProductUtils productUtils;
 
-    @GetMapping("/")
+    @GetMapping
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<List<Product>> getProducts() {
         log.info("Getting products");
