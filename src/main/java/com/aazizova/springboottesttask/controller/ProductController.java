@@ -7,6 +7,10 @@ import com.aazizova.springboottesttask.utils.builder.CustomEntityBuilder;
 import com.google.code.siren4j.component.Entity;
 import com.google.code.siren4j.converter.ReflectingConverter;
 import com.google.code.siren4j.error.Siren4JException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +24,7 @@ import java.util.List;
 @RequestMapping("/api/products")
 @Log4j2
 //@CrossOrigin(origins = "http://localhost:3000")
+@Api(value="Simple Inventory System", description="Operations pertaining to products in Simple Inventory System")
 public class ProductController {
 
     @Autowired
@@ -31,6 +36,13 @@ public class ProductController {
     @Autowired
     CustomEntityBuilder customEntityBuilder;
 
+    @ApiOperation(value = "View all products", response = Entity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved products"),
+            @ApiResponse(code = 204, message = "There are no products"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")
+    })
     @GetMapping
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Entity getProducts(HttpServletRequest request) throws Siren4JException {
