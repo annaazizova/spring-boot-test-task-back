@@ -9,10 +9,10 @@ The front part of this app is [spring_boot_test_task_front](https://github.com/a
 <ul>
   <li>Java 8</li>
   <li>Spring Boot 2</li>
-  <li>Basic auth (<a href="https://github.com/annaazizova/spring_boot_test_task_back/tree/feat/security">feat/security</a> branch)</li>
+  <li>Basic auth</li>
   <li>JWT (<a href="https://github.com/annaazizova/spring_boot_test_task_back/tree/feat/jwt">feat/jwt</a> branch)</li>
   <li>H2</li>
-  <li>Siren4J (<a href="https://github.com/annaazizova/spring_boot_test_task_back/tree/feat/siren">feat/siren</a> branch)</li>
+  <li>Siren4J</li>
   <li>Lombok</li>
 </ul>
 
