@@ -31,7 +31,7 @@ User is able to
 
 ## How to use?
 
-Run maven app with `spring-boot:run` command on [http://localhost:8080](http://localhost:8080), main branch is [master](https://github.com/annaazizova/spring_boot_test_task_back).
+Run maven app with `spring-boot:run` command on [http://localhost:8080](http://localhost:8080), main branch is [master](https://github.com/annaazizova/spring_boot_test_task_back). Login page is [http://localhost:8080/login](http://localhost:8080/login), after successful auth redirect to all products info.
 
 ## HTTP RESTful API
 Available entry points:
