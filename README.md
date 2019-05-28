@@ -1,4 +1,4 @@
-This project is simple inventory system with different available functionality depending on user's role.
+This project is simple inventory system with different available functionality depending on user's role (User or Admin).
 
 ## Front
 
