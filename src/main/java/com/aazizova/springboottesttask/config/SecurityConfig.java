@@ -1,16 +1,19 @@
 package com.aazizova.springboottesttask.config;
 
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-@EnableOAuth2Sso
 @Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -20,15 +23,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable()
-                /*.antMatcher("/**")
-                .authorizeRequests()
-                .antMatchers("/", "/index.html", "actuator/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()*/
+                .formLogin().permitAll()
+                .defaultSuccessUrl("/api/products/")
+                .and()
                 .authorizeRequests()
                 .anyRequest()
-                .permitAll();
+                .authenticated()
+                .and()
+                .httpBasic()
+                .and()
+                .logout()
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+            .inMemoryAuthentication()
+            .withUser("user")
+            .password("{noop}password")
+            .roles("USER")
+            .and()
+            .withUser("admin")
+            .password("{noop}admin")
+            .roles("USER", "ADMIN");
     }
 
     @Bean
