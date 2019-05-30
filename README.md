@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/annaazizova/spring_boot_test_task_back/branch/feat/jacoco/graph/badge.svg)](https://codecov.io/gh/annaazizova/spring_boot_test_task_back)
+
 This project is simple inventory system with different available functionality depending on user's role (User or Admin).
 
 ## Front
