@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomActionBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring-boot-test-task</a> &gt; <a href="index.source.html" class="el_package">com.aazizova.springboottesttask.utils.builder</a> &gt; <span class="el_source">CustomActionBuilder.java</span></div><h1>CustomActionBuilder.java</h1><pre class="source lang-java linenums">package com.aazizova.springboottesttask.utils.builder;
+
+import com.aazizova.springboottesttask.model.entity.Product;
+import com.google.code.siren4j.component.Action;
+import com.google.code.siren4j.component.builder.ActionBuilder;
+import com.google.code.siren4j.component.builder.FieldBuilder;
+import com.google.code.siren4j.component.impl.ActionImpl;
+import com.google.code.siren4j.meta.FieldType;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+<span class="fc" id="L16">public class CustomActionBuilder {</span>
+    public Action buildAction(String name, String title, ActionImpl.Method method, String additionalUri) {
+<span class="fc" id="L18">        return ActionBuilder.newInstance()</span>
+<span class="fc" id="L19">                .setName(name)</span>
+<span class="fc" id="L20">                .setTitle(title)</span>
+<span class="fc" id="L21">                .setMethod(method)</span>
+<span class="fc" id="L22">                .setHref(&quot;/api/products&quot;.concat(additionalUri))</span>
+<span class="fc" id="L23">                .setType(MediaType.APPLICATION_JSON.getType())</span>
+<span class="fc" id="L24">                .addField(FieldBuilder.newInstance().setName(Product.FIELD_NAME).setType(FieldType.TEXT).build())</span>
+<span class="fc" id="L25">                .addField(FieldBuilder.newInstance().setName(Product.FIELD_BRAND).setType(FieldType.TEXT).build())</span>
+<span class="fc" id="L26">                .addField(FieldBuilder.newInstance().setName(Product.FIELD_PRICE).setType(FieldType.NUMBER).build())</span>
+<span class="fc" id="L27">                .addField(FieldBuilder.newInstance().setName(Product.FIELD_QUANTITY).setType(FieldType.NUMBER).build())</span>
+<span class="fc" id="L28">                .build();</span>
+    }
+
+    public Action buildNoFieldsAction(String name, String title, ActionImpl.Method method, String additionalUri) {
+<span class="fc" id="L32">        return ActionBuilder.newInstance()</span>
+<span class="fc" id="L33">                .setName(name)</span>
+<span class="fc" id="L34">                .setTitle(title)</span>
+<span class="fc" id="L35">                .setMethod(method)</span>
+<span class="fc" id="L36">                .setHref(&quot;/api/products&quot;.concat(additionalUri))</span>
+<span class="fc" id="L37">                .setType(MediaType.APPLICATION_JSON.getType())</span>
+<span class="fc" id="L38">                .build();</span>
+    }
+
+    public List&lt;Action&gt; buildActions() {
+<span class="fc" id="L42">        List&lt;Action&gt; actions = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L43">        actions.add(buildAction(&quot;add-product&quot;, &quot;Create new product&quot;, ActionImpl.Method.POST, &quot;&quot;));</span>
+<span class="fc" id="L44">        actions.add(buildNoFieldsAction(&quot;delete-product&quot;, &quot;Delete existing product&quot;, ActionImpl.Method.DELETE, &quot;/{productId}&quot;));</span>
+<span class="fc" id="L45">        actions.add(buildAction(&quot;update-product&quot;, &quot;Update existing product&quot;, ActionImpl.Method.PUT, &quot;/{productId}&quot;));</span>
+<span class="fc" id="L46">        actions.add(buildNoFieldsAction(&quot;export-products&quot;, &quot;Export all product to xls file&quot;, ActionImpl.Method.GET, &quot;/export&quot;));</span>
+<span class="fc" id="L47">        return actions;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
