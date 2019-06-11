@@ -1,7 +1,7 @@
 # spring_boot_test_task
 
 curl --request POST \
-  --url http://localhost:8080/oauth/token/ \
+  --url http://localhost:8080/oauth/token \
   --header 'authorization: Basic dXNlcjpkZXZnbGFuLXNlY3JldA==' \
   --header 'content-type: application/x-www-form-urlencoded' \
   --data username=user \
