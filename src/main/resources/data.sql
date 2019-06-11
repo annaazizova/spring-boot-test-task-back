@@ -5,7 +5,7 @@ INSERT INTO products (id, name, brand, price, quantity) VALUES (3, 'ProductName3
 INSERT INTO products (id, name, brand, price, quantity) VALUES (4, 'ProductName4', 'ProductBrand4', 4, 4);
 
 INSERT INTO USERS (ID, USERNAME, PASSWORD) VALUES (
-  1, 'user','$2a$04$pxpD61uV3EKHneQF5CDiKe5YsfhOs6Kgkb2Axf2KE1Voc4FkM2G72');
+  1, 'user','$2a$10$9/44Rne7kQqPXa0cY6NfG.3XzScMrCxFYjapoLq/wFmHz7EC9praK');
 
 INSERT INTO USERS (ID, USERNAME, PASSWORD) VALUES (
   2, 'email2@gmail.com','$2a$10$9hdvt4tXBIpnuo.gNnBYF.vLzyzAfOhLZSjj7xlkc3y0x/u1xj0wu');
