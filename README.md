@@ -30,7 +30,7 @@ User is able to
   <li>see all leftovers</li>
   <li>export search result an an xlsx file</li>
   <li>healthcheck on <a href="http://localhost:8080/healthcheck">http://localhost:8080/healthcheck</a> (available without authorization)</li>
-  <li>api documentation and testing on <a href="http://localhost:8080/swagger-ui.html">http://localhost:8080/swagger-ui.html</a> (available without authorization)</li>
+  <li>api documentation and testing on <a href="http://localhost:8080/swagger-ui.html">http://localhost:8080/swagger-ui.html</a></li>
 </ul>
 
 ## How to use?
