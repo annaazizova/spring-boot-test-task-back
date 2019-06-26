@@ -12,6 +12,7 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -52,7 +53,7 @@ public class Swagger2Config {
                 .build()
                 .apiInfo(apiEndPointsInfo())
                 .securityContexts(Lists.newArrayList(securityContext()))
-                .securitySchemes(Lists.newArrayList(apiKey()));
+                .securitySchemes(Lists.newArrayList(securitySchema()));
     }
 
     /**
@@ -84,7 +85,10 @@ public class Swagger2Config {
                 new SecurityReference("JWT", authorizationScopes));
     }
 
-    private ApiKey apiKey() {
-        return new ApiKey("JWT", "Authorization", "header");
+    private OAuth securitySchema() {
+        List<AuthorizationScope> authorizationScopeList = Collections.singletonList(new AuthorizationScope("READ", "descr"));
+        ResourceOwnerPasswordCredentialsGrant resourceOwnerPasswordCredentialsGrant = new ResourceOwnerPasswordCredentialsGrant("http://localhost:8080/oauth/token");
+        List<GrantType> grantTypes = Collections.singletonList(resourceOwnerPasswordCredentialsGrant);
+        return new OAuth("securitySchemaOAuth2", authorizationScopeList, grantTypes);
     }
 }

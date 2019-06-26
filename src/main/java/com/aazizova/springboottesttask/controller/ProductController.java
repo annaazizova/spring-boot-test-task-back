@@ -1,5 +1,6 @@
 package com.aazizova.springboottesttask.controller;
 
+import com.aazizova.springboottesttask.config.Swagger2Config;
 import com.aazizova.springboottesttask.model.entity.Product;
 import com.aazizova.springboottesttask.service.ProductService;
 import com.aazizova.springboottesttask.utils.ProductUtils;
@@ -7,10 +8,7 @@ import com.aazizova.springboottesttask.utils.builder.CustomEntityBuilder;
 import com.google.code.siren4j.component.Entity;
 import com.google.code.siren4j.converter.ReflectingConverter;
 import com.google.code.siren4j.error.Siren4JException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,7 +63,10 @@ public class ProductController {
      *
      * @return Entity
      */
-    @ApiOperation(value = "View all products", response = Entity.class)
+    @ApiOperation(value = "View all products",
+                    response = Entity.class,
+                    authorizations = {@Authorization(value = "securitySchemaOAuth2")}
+    )
     @ApiResponses(value = {
             @ApiResponse(code = HttpServletResponse.SC_OK,
                     message = "Successfully retrieved products"),
@@ -100,6 +101,11 @@ public class ProductController {
      * @return Entity
      */
     @GetMapping("/{id}")
+    @ApiOperation(value = "Get product by id",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "securitySchemaOAuth2")}
+    )
+    @GetMapping("/{productId}")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Entity product(final @PathVariable(name = "id") Long id)
             throws Siren4JException { //TODO add exception handling
@@ -122,6 +128,10 @@ public class ProductController {
      *
      * @return Entity
      */
+    @ApiOperation(value = "Add new product",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "securitySchemaOAuth2")}
+    )
     @PostMapping("/")
     @Secured("ROLE_ADMIN")
     public Entity addProduct(final @RequestBody Product product)
@@ -139,6 +149,11 @@ public class ProductController {
      * @return Entity
      */
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Delete product",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "securitySchemaOAuth2")}
+    )
+    @DeleteMapping("/{productId}")
     @Secured("ROLE_ADMIN")
     public Entity deleteProduct(final @PathVariable(name = "id") Long id) {
         log.info("Deleting Product with id = [" + id + "]");
@@ -163,6 +178,11 @@ public class ProductController {
      * @return Entity
      */
     @PutMapping("/{id}")
+    @ApiOperation(value = "Update product",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "securitySchemaOAuth2")}
+    )
+    @PutMapping("/{productId}")
     @Secured("ROLE_ADMIN")
     public Entity updateProduct(final @RequestBody Product product,
                                 final @PathVariable(name = "id") Long id) {
@@ -184,6 +204,10 @@ public class ProductController {
      *
      * @return Entity
      */
+    @ApiOperation(value = "Export products",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "securitySchemaOAuth2")}
+    )
     @PostMapping("/export")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Entity exportProducts(final @RequestBody List<Product> products) {
@@ -204,6 +228,10 @@ public class ProductController {
      *
      * @return Entity
      */
+    @ApiOperation(value = "Get leftovers",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "securitySchemaOAuth2")}
+    )
     @GetMapping("/leftovers")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Entity leftovers(final HttpServletRequest request) {
