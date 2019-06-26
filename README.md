@@ -1,10 +1,10 @@
-[![codecov](https://codecov.io/gh/annaazizova/spring_boot_test_task_back/branch/master/graph/badge.svg)](https://codecov.io/gh/annaazizova/spring_boot_test_task_back)
+[![codecov](https://codecov.io/gh/annaazizova/spring-boot-test-task-back/branch/master/graph/badge.svg)](https://codecov.io/gh/annaazizova/spring-boot-test-task-back)
 
 This project is simple inventory system with different available functionality depending on user's role (User or Admin).
 
 ## Front
 
-The front part of this app is [spring_boot_test_task_front](https://github.com/annaazizova/spring_boot_test_task_front)
+The front part of this app is [spring-boot-test-task-front](https://github.com/annaazizova/spring-boot-test-task-front)
 
 ## Tech/framework used
 
@@ -12,7 +12,7 @@ The front part of this app is [spring_boot_test_task_front](https://github.com/a
   <li>Java 8</li>
   <li>Spring Boot 2</li>
   <li>Basic auth</li>
-  <li>JWT (<a href="https://github.com/annaazizova/spring_boot_test_task_back/tree/feat/jwt">feat/jwt</a> branch)</li>
+  <li>JWT (<a href="https://github.com/annaazizova/spring-boot-test-task-back/tree/feat/jwt">feat/jwt</a> branch)</li>
   <li>H2</li>
   <li>Siren4J</li>
   <li>Lombok</li>
