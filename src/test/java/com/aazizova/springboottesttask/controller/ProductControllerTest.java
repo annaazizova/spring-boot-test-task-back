@@ -30,9 +30,16 @@ public class ProductControllerTest {
     }
 
     @Test
-    @WithMockUser
+    public void authIsRequiredTest() throws Exception {
+        mockMVC.perform(get("/api/products"))
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "ROLE_ADMIN")
     public void getAllProductsTest() throws Exception {
-        this.mockMVC.perform(get("/api/products"))
+        mockMVC.perform(get("/api/products"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
