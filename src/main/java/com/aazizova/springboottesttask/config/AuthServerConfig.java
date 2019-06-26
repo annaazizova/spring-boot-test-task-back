@@ -2,6 +2,7 @@ package com.aazizova.springboottesttask.config;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -23,8 +24,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @EnableAuthorizationServer
 @Log4j2
 public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
-    static final String CLIEN_ID = "user";
-    static final String CLIENT_SECRET = "devglan-secret";
     static final String GRANT_TYPE_PASSWORD = "password";
     static final String AUTHORIZATION_CODE = "authorization_code";
     static final String REFRESH_TOKEN = "refresh_token";
@@ -33,6 +32,12 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     static final String SCOPE_WRITE = "WRITE";
     static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1*60*60;
     static final int FREFRESH_TOKEN_VALIDITY_SECONDS = 6*60*60;
+
+    @Value("${security.oauth2.client.clientId}")
+    private String CLIENT_ID;
+
+    @Value("${security.oauth2.client.clientSecret}")
+    private String CLIENT_SECRET;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -74,7 +79,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     public void configure(ClientDetailsServiceConfigurer configurer) throws Exception {
         configurer
                 .inMemory()
-                .withClient(CLIEN_ID)
+                .withClient(CLIENT_ID)
                 .secret(passwordEncoder.encode(CLIENT_SECRET))
                 .authorizedGrantTypes(GRANT_TYPE_PASSWORD, AUTHORIZATION_CODE, REFRESH_TOKEN, IMPLICIT )
                 .scopes(SCOPE_READ, SCOPE_WRITE)
