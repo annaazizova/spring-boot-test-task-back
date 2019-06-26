@@ -30,21 +30,9 @@ User is able to
   <li>see all leftovers</li>
   <li>export search result an an xlsx file</li>
   <li>healthcheck on <a href="http://localhost:8080/healthcheck">http://localhost:8080/healthcheck</a> (available without authorization)</li>
-  <li>api documentation on <a href="http://localhost:8080/swagger-ui.html">http://localhost:8080/swagger-ui.html</a> (available without authorization)</li>
+  <li>api documentation and testing on <a href="http://localhost:8080/swagger-ui.html">http://localhost:8080/swagger-ui.html</a> (available without authorization)</li>
 </ul>
 
 ## How to use?
 
 Run maven app with `spring-boot:run` command on [http://localhost:8080](http://localhost:8080), main branch is [master](https://github.com/annaazizova/spring_boot_test_task_back). Login page is [http://localhost:8080/login](http://localhost:8080/login), after successful auth redirect to all products info.
-
-## HTTP RESTful API
-Available entry points:
-<ul>
-  <li>
-    <code>GET /api/products</code>: returns all existing products
-  </li>
-  <li>
-    <code>GET /api/products/{productId}</code>: returns product details
-  </li>
-  etc
-</ul>
