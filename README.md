@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/annaazizova/spring-boot-test-task-back/branch/master/graph/badge.svg)](https://codecov.io/gh/annaazizova/spring-boot-test-task-back)
+[![Build Status](https://travis-ci.org/annaazizova/spring-boot-test-task-back.svg?branch=master)](https://travis-ci.org/annaazizova/spring-boot-test-task-back) [![codecov](https://codecov.io/gh/annaazizova/spring-boot-test-task-back/branch/master/graph/badge.svg)](https://codecov.io/gh/annaazizova/spring-boot-test-task-back)
 
 This project is simple inventory system with different available functionality depending on user's role (User or Admin).
 
