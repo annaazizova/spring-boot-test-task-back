@@ -51,8 +51,17 @@ public class CustomEntityBuilder {
                 .build();
     }
 
-    public Entity buildProductsEntity(List<Product> products, HttpServletRequest request, String type) {
-        final List<Entity> productsEntities = products.stream().map(product -> buildProductEntity(product, request)).collect(Collectors.toList());
+    /**
+     * Builds products entity.
+     *
+     * @param products List<Product>
+     * @param request HttpServletRequest
+     * @param type String
+     *
+     * @return Entity
+     */
+    public final Entity productsEntity(final List<Product> products, final HttpServletRequest request, final String type) {
+        final List<Entity> productsEntities = products.stream().map(product -> productEntity(product, request)).collect(Collectors.toList());
         return EntityBuilder.newInstance()
                 .setComponentClass(type)
                 .addSubEntities(productsEntities)

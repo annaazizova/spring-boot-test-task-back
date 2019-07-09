@@ -18,6 +18,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -36,28 +37,37 @@ public class ProductController {
     @Autowired
     CustomEntityBuilder customEntityBuilder;
 
+    /**
+     * Returns entity of all products.
+     *
+     * @param req HttpServletRequest
+     *
+     * @throws Siren4JException if something with siren format happened
+     *
+     * @return Entity
+     */
     @ApiOperation(value = "View all products", response = Entity.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved products"),
-            @ApiResponse(code = 204, message = "There are no products"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")
+            @ApiResponse(code = HttpServletResponse.SC_OK, message = "Successfully retrieved products"),
+            @ApiResponse(code = HttpServletResponse.SC_NO_CONTENT, message = "There are no products"),
+            @ApiResponse(code = HttpServletResponse.SC_UNAUTHORIZED, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = HttpServletResponse.SC_FORBIDDEN, message = "Accessing the resource you were trying to reach is forbidden")
     })
     @GetMapping
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public Entity getProducts(HttpServletRequest request) throws Siren4JException {
+    public Entity products(final HttpServletRequest req) throws Siren4JException {
         log.info("Getting products");
         List<Product> products = productService.retrieveProducts();
         if (products.isEmpty()) {
             log.info("There are no products");
             return customEntityBuilder.buildErrorEntity(HttpStatus.NO_CONTENT, "There are no products");
         }
-        return customEntityBuilder.buildProductsEntity(products, request, "products");
+        return customEntityBuilder.productsEntity(products, req, "products");
     }
 
     @GetMapping("/{productId}")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public Entity getProduct(@PathVariable(name = "productId") Long productId) throws Siren4JException {//TODO add exception handling
+    public Entity product(final @PathVariable(name = "productId") Long productId) throws Siren4JException { //TODO add exception handling
         log.info("Getting Product with id = [" + productId + "]");
         Product product = productService.getProductById(productId);
         if (product == null) {
@@ -88,6 +98,14 @@ public class ProductController {
         return customEntityBuilder.buildSuccessEntity();
     }
 
+    /**
+     * Returns entity of updated product. //TODO check all comments like this
+     *
+     * @param product product
+     * @param productId id of product
+     *
+     * @return Entity
+     */
     @PutMapping("/{productId}")
     @Secured("ROLE_ADMIN")
     public Entity updateProduct(@RequestBody Product product,
@@ -116,7 +134,7 @@ public class ProductController {
 
     @GetMapping("/leftovers")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public Entity getLeftovers(HttpServletRequest request) {
+    public Entity leftovers(final HttpServletRequest request) {
         log.info("Getting leftovers");
         List<Product> leftovers = productService.retrieveLeftovers();
         if (leftovers.isEmpty()) {
