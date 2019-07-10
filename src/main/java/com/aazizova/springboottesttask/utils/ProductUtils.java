@@ -17,10 +17,39 @@ import java.util.List;
 
 @Component
 public class ProductUtils {
-    public boolean exportToXLS(List<Product> products) {
-        String[] columns = { "Id", "Name", "Brand", "Price", "Quantity" };
+    /**
+     * Zero.
+     */
+    private static final int ZERO = 0;
+    /**
+     * One.
+     */
+    private static final int ONE = 1;
+    /**
+     * Two.
+     */
+    private static final int TWO = 2;
+    /**
+     * Three.
+     */
+    private static final int THREE = 3;
+    /**
+     * Four.
+     */
+    private static final int FOUR = 4;
+    /**
+     * Export products to XLS.
+     *
+     * @param products List<Product>
+     *
+     * @return boolean
+     */
+    public boolean exportToXLS(final List<Product> products) {
+        String[] columns = {"Id", "Name", "Brand", "Price", "Quantity" };
         try {
-            try (Workbook workbook = new HSSFWorkbook(); FileOutputStream fileOut = new FileOutputStream("filtered_products.xls")) {
+            try (Workbook workbook = new HSSFWorkbook();
+                FileOutputStream fileOut
+                        = new FileOutputStream("filtered_products.xls")) {
                 Sheet sheet = workbook.createSheet("Users");
 
                 Font headerFont = workbook.createFont();
@@ -44,19 +73,19 @@ public class ProductUtils {
                 for (Product product : products) {
                     Row row = sheet.createRow(rowIdx++);
 
-                    row.createCell(0).setCellValue(product.getId());
-                    row.createCell(1).setCellValue(product.getName());
-                    row.createCell(2).setCellValue(product.getBrand());
-                    row.createCell(3).setCellValue(product.getPrice());
-                    row.createCell(4).setCellValue(product.getQuantity());
+                    row.createCell(ZERO).setCellValue(product.getId());
+                    row.createCell(ONE).setCellValue(product.getName());
+                    row.createCell(TWO).setCellValue(product.getBrand());
+                    row.createCell(THREE).setCellValue(product.getPrice());
+                    row.createCell(FOUR).setCellValue(product.getQuantity());
                 }
 
                 //Auto-size all the above columns
-                sheet.autoSizeColumn(0);
-                sheet.autoSizeColumn(1);
-                sheet.autoSizeColumn(2);
-                sheet.autoSizeColumn(3);
-                sheet.autoSizeColumn(4);
+                sheet.autoSizeColumn(ZERO);
+                sheet.autoSizeColumn(ONE);
+                sheet.autoSizeColumn(TWO);
+                sheet.autoSizeColumn(THREE);
+                sheet.autoSizeColumn(FOUR);
 
                 workbook.write(fileOut);
                 return true;

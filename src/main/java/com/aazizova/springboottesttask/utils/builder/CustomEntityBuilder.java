@@ -40,7 +40,16 @@ public class CustomEntityBuilder {
                 .build();
     }
 
-    public Entity buildProductEntity(Product product, HttpServletRequest request) {
+    /**
+     * Builds product entity.
+     *
+     * @param product Product
+     * @param req HttpServletRequest
+     *
+     * @return Entity
+     */
+    private Entity productEntity(final Product product,
+                                 final HttpServletRequest req) {
         return EntityBuilder.newInstance().setRelationship("product")
                 .addProperty(Product.FIELD_ID, product.getId())
                 .addProperty(Product.FIELD_NAME, product.getName())
@@ -60,8 +69,13 @@ public class CustomEntityBuilder {
      *
      * @return Entity
      */
-    public final Entity productsEntity(final List<Product> products, final HttpServletRequest request, final String type) {
-        final List<Entity> productsEntities = products.stream().map(product -> productEntity(product, request)).collect(Collectors.toList());
+    public final Entity productsEntity(final List<Product> products,
+                                       final HttpServletRequest request,
+                                       final String type) {
+        final List<Entity> productsEntities = products
+                .stream()
+                .map(product -> productEntity(product, request))
+                .collect(Collectors.toList());
         return EntityBuilder.newInstance()
                 .setComponentClass(type)
                 .addSubEntities(productsEntities)

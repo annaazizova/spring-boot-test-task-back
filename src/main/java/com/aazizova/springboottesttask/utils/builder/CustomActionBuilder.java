@@ -13,22 +13,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CustomActionBuilder {
-    public Action buildAction(String name, String title, ActionImpl.Method method, String additionalUri) {
+public final class CustomActionBuilder {
+    /**
+     * Action.
+     *
+     * @param name String
+     * @param title String
+     * @param method ActionImpl.Method
+     * @param additionalUri String
+     *
+     * @return Action
+     */
+    private Action action(final String name,
+                          final String title,
+                          final ActionImpl.Method method,
+                          final String additionalUri) {
         return ActionBuilder.newInstance()
                 .setName(name)
                 .setTitle(title)
                 .setMethod(method)
                 .setHref("/api/products".concat(additionalUri))
                 .setType(MediaType.APPLICATION_JSON.getType())
-                .addField(FieldBuilder.newInstance().setName(Product.FIELD_NAME).setType(FieldType.TEXT).build())
-                .addField(FieldBuilder.newInstance().setName(Product.FIELD_BRAND).setType(FieldType.TEXT).build())
-                .addField(FieldBuilder.newInstance().setName(Product.FIELD_PRICE).setType(FieldType.NUMBER).build())
-                .addField(FieldBuilder.newInstance().setName(Product.FIELD_QUANTITY).setType(FieldType.NUMBER).build())
+                .addField(FieldBuilder
+                            .newInstance()
+                            .setName(Product.FIELD_NAME)
+                            .setType(FieldType.TEXT)
+                            .build())
+                .addField(FieldBuilder
+                            .newInstance()
+                            .setName(Product.FIELD_BRAND)
+                            .setType(FieldType.TEXT)
+                            .build())
+                .addField(FieldBuilder
+                            .newInstance()
+                            .setName(Product.FIELD_PRICE)
+                            .setType(FieldType.NUMBER)
+                            .build())
+                .addField(FieldBuilder
+                            .newInstance()
+                            .setName(Product.FIELD_QUANTITY)
+                            .setType(FieldType.NUMBER)
+                            .build())
                 .build();
     }
 
-    public Action buildNoFieldsAction(String name, String title, ActionImpl.Method method, String additionalUri) {
+    /**
+     * No field action.
+     *
+     * @param name String
+     * @param title String
+     * @param method ActionImpl.Method
+     * @param additionalUri String
+     *
+     * @return Action
+     */
+    private Action noFieldsAction(final String name,
+                                  final String title,
+                                  final ActionImpl.Method method,
+                                  final String additionalUri) {
         return ActionBuilder.newInstance()
                 .setName(name)
                 .setTitle(title)
@@ -40,10 +82,22 @@ public class CustomActionBuilder {
 
     public List<Action> buildActions() {
         List<Action> actions = new ArrayList<>();
-        actions.add(buildAction("add-product", "Create new product", ActionImpl.Method.POST, ""));
-        actions.add(buildNoFieldsAction("delete-product", "Delete existing product", ActionImpl.Method.DELETE, "/{productId}"));
-        actions.add(buildAction("update-product", "Update existing product", ActionImpl.Method.PUT, "/{productId}"));
-        actions.add(buildNoFieldsAction("export-products", "Export all product to xls file", ActionImpl.Method.GET, "/export"));
+        actions.add(action("add-product",
+                "Create new product",
+                ActionImpl.Method.POST,
+                ""));
+        actions.add(noFieldsAction("delete-product",
+                "Delete existing product",
+                ActionImpl.Method.DELETE,
+                "/{productId}"));
+        actions.add(action("update-product",
+                "Update existing product",
+                ActionImpl.Method.PUT,
+                "/{productId}"));
+        actions.add(noFieldsAction("export-products",
+                "Export all product to xls file",
+                ActionImpl.Method.GET,
+                "/export"));
         return actions;
     }
 }

@@ -14,10 +14,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
+    //TODO move constants to separate class
     /**
      * Github url.
      */
-    private static final String GITHUB_URL = "https://github.com/annaazizova"; //TODO move constants to separate class
+    private static final String GITHUB_URL = "https://github.com/annaazizova";
     /**
      * Author email.
      */
@@ -26,6 +27,11 @@ public class Swagger2Config {
      * Author name.
      */
     private static final String AUTHOR_NAME = "Anna Azizova";
+    /**
+     * Package name.
+     */
+    private static final String PACKAGE_NAME =
+            "com.aazizova.springboottesttask.controller";
 
     /**
      * Api.
@@ -36,7 +42,7 @@ public class Swagger2Config {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select()
                 .apis(RequestHandlerSelectors
-                        .basePackage("com.aazizova.springboottesttask.controller"))
+                        .basePackage(PACKAGE_NAME))
                 .paths(PathSelectors.regex("/.*"))
                 .build().apiInfo(apiEndPointsInfo());
     }

@@ -17,6 +17,8 @@ public class CustomLinkBuilder {
     }
 
     private Link createResourceUri(long id, String requestURI) {
-        return createLinkBuilder().setHref(requestURI.concat(String.valueOf(id))).setRelationship(SELF_REL).build();
+        return createLinkBuilder()
+                .setHref(requestURI.concat(String.valueOf(id)))
+                .setRelationship(SELF_REL).build();
     }
 }
