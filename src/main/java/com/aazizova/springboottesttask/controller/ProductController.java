@@ -15,114 +15,206 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Product controller.
+ */
 @RestController
 @RequestMapping("/api/products")
 @Log4j2
 //@CrossOrigin(origins = "http://localhost:3000")
-@Api(value="Simple Inventory System", description="Operations pertaining to products in Simple Inventory System")
+@Api(value = "Simple Inventory System",
+        description = "Operations for products in Simple Inventory System")
 public class ProductController {
-
+    /**
+     * Product service.
+     */
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
+    /**
+     * Product utils.
+     */
     @Autowired
-    ProductUtils productUtils;
+    private ProductUtils productUtils;
 
+    /**
+     * Custom entity builder.
+     */
     @Autowired
-    CustomEntityBuilder customEntityBuilder;
+    private CustomEntityBuilder customEntityBuilder;
 
+    /**
+     * Returns entity of all products.
+     *
+     * @param req HttpServletRequest
+     *
+     * @throws Siren4JException if something with siren format happened
+     *
+     * @return Entity
+     */
     @ApiOperation(value = "View all products", response = Entity.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved products"),
-            @ApiResponse(code = 204, message = "There are no products"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")
+            @ApiResponse(code = HttpServletResponse.SC_OK,
+                    message = "Successfully retrieved products"),
+            @ApiResponse(code = HttpServletResponse.SC_NO_CONTENT,
+                    message = "There are no products"),
+            @ApiResponse(code = HttpServletResponse.SC_UNAUTHORIZED,
+                    message = "You are not authorized to view the resource"),
+            @ApiResponse(code = HttpServletResponse.SC_FORBIDDEN,
+                    message = "Access is forbidden")
     })
     @GetMapping
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public Entity getProducts(HttpServletRequest request) throws Siren4JException {
+    public Entity products(final HttpServletRequest req)
+            throws Siren4JException {
         log.info("Getting products");
-        List<Product> products = productService.retrieveProducts();
+        List<Product> products = productService.products();
         if (products.isEmpty()) {
             log.info("There are no products");
-            return customEntityBuilder.buildErrorEntity(HttpStatus.NO_CONTENT, "There are no products");
+            return customEntityBuilder.errorEntity(HttpStatus.NO_CONTENT,
+                    "There are no products");
         }
-        return customEntityBuilder.buildProductsEntity(products, request, "products");
+        return customEntityBuilder.productsEntity(products, req, "products");
     }
 
-    @GetMapping("/{productId}")
+    /**
+     * Returns entity of product.
+     *
+     * @param id id of product
+     *
+     * @throws Siren4JException if something with siren format happened
+     *
+     * @return Entity
+     */
+    @GetMapping("/{id}")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public Entity getProduct(@PathVariable(name = "productId") Long productId) throws Siren4JException {//TODO add exception handling
-        log.info("Getting Product with id = [" + productId + "]");
-        Product product = productService.getProductById(productId);
+    public Entity product(final @PathVariable(name = "id") Long id)
+            throws Siren4JException { //TODO add exception handling
+        log.info("Getting Product with id = [" + id + "]");
+        Product product = productService.productWithId(id);
         if (product == null) {
-            log.info("Product with id = [" + productId + "] not found");
-            return customEntityBuilder.buildErrorEntity(HttpStatus.NOT_FOUND, "Product with id = [" + productId + "] not found");
+            log.info("Product with id = [" + id + "] not found");
+            return customEntityBuilder.errorEntity(HttpStatus.NOT_FOUND,
+                    "Product with id = [" + id + "] not found");
         }
         return ReflectingConverter.newInstance().toEntity(product);
     }
 
+    /**
+     * Add product.
+     *
+     * @param product Product
+     *
+     * @throws Siren4JException Siren4JException
+     *
+     * @return Entity
+     */
     @PostMapping("/")
     @Secured("ROLE_ADMIN")
-    public Entity addProduct(@RequestBody Product product) throws Siren4JException {
+    public Entity addProduct(final @RequestBody Product product)
+            throws Siren4JException {
         log.info("Saving Product = [" + product + "]");
         productService.addProduct(product);
         return ReflectingConverter.newInstance().toEntity(product);
     }
 
-    @DeleteMapping("/{productId}")
+    /**
+     * Returns entity of deleted product.
+     *
+     * @param id id of product
+     *
+     * @return Entity
+     */
+    @DeleteMapping("/{id}")
     @Secured("ROLE_ADMIN")
-    public Entity deleteProduct(@PathVariable(name = "productId") Long productId) {
-        log.info("Deleting Product with id = [" + productId + "]");
-        Product product = productService.getProductById(productId);
+    public Entity deleteProduct(final @PathVariable(name = "id") Long id) {
+        log.info("Deleting Product with id = [" + id + "]");
+        Product product = productService.productWithId(id);
         if (product == null) {
-            log.info("Unable to delete product with id = [" + productId + "] because it's not found");
-            return customEntityBuilder.buildErrorEntity(HttpStatus.NOT_FOUND, "Unable to delete product with id = [" + productId + "] because it's not found");
+            log.info("Unable to delete product with id = [" + id + "]"
+                    + " because it's not found");
+            return customEntityBuilder.errorEntity(HttpStatus.NOT_FOUND,
+                    "Unable to delete product with id = [" + id + "]"
+                    + " because it's not found");
         }
-        productService.deleteProductById(productId);
-        return customEntityBuilder.buildSuccessEntity();
+        productService.deleteProductById(id);
+        return customEntityBuilder.successEntity();
     }
 
-    @PutMapping("/{productId}")
+    /**
+     * Returns entity of updated product.
+     *
+     * @param product product
+     * @param id id of product
+     *
+     * @return Entity
+     */
+    @PutMapping("/{id}")
     @Secured("ROLE_ADMIN")
-    public Entity updateProduct(@RequestBody Product product,
-                                @PathVariable(name = "productId") Long productId) {
+    public Entity updateProduct(final @RequestBody Product product,
+                                final @PathVariable(name = "id") Long id) {
         log.info("Updating Product =[" + product + "]");
-        Product prod = productService.getProductById(productId);
+        Product prod = productService.productWithId(id);
         if (prod == null) {
-            log.info("Product with id = [" + productId + "] not found");
-            return customEntityBuilder.buildErrorEntity(HttpStatus.NOT_FOUND, "Product with id = [" + productId + "] not found");
+            log.info("Product with id = [" + id + "] not found");
+            return customEntityBuilder.errorEntity(HttpStatus.NOT_FOUND,
+                    "Product with id = [" + id + "] not found");
         }
         productService.updateProduct(product);
-        return customEntityBuilder.buildSuccessEntity();
+        return customEntityBuilder.successEntity();
     }
 
+    /**
+     * Export products.
+     *
+     * @param products List<Product>
+     *
+     * @return Entity
+     */
     @PostMapping("/export")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public Entity exportProducts(@RequestBody List<Product> products) {
+    public Entity exportProducts(final @RequestBody List<Product> products) {
         log.info("products = [" + products + "]");
         log.info("Exporting filtered products");
         if (!productUtils.exportToXLS(products)) {
             log.info("Can't export");
-            return customEntityBuilder.buildErrorEntity(HttpStatus.NO_CONTENT, "Can't export");
+            return customEntityBuilder.errorEntity(HttpStatus.NO_CONTENT,
+                    "Can't export");
         }
-        return customEntityBuilder.buildSuccessEntity();
+        return customEntityBuilder.successEntity();
     }
 
+    /**
+     * Leftovers.
+     *
+     * @param request HttpServletRequest
+     *
+     * @return Entity
+     */
     @GetMapping("/leftovers")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public Entity getLeftovers(HttpServletRequest request) {
+    public Entity leftovers(final HttpServletRequest request) {
         log.info("Getting leftovers");
-        List<Product> leftovers = productService.retrieveLeftovers();
+        List<Product> leftovers = productService.leftovers();
         if (leftovers.isEmpty()) {
             log.info("There are no leftovers");
-            return customEntityBuilder.buildErrorEntity(HttpStatus.NO_CONTENT, "There are no leftovers");
+            return customEntityBuilder.errorEntity(HttpStatus.NO_CONTENT,
+                    "There are no leftovers");
         }
-        return customEntityBuilder.buildProductsEntity(leftovers, request, "leftovers");
+        return customEntityBuilder.productsEntity(leftovers,
+                request, "leftovers");
     }
 }

@@ -11,13 +11,18 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+/**
+ * SecurityConfig.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+    /**
+     * Configure http security.
+     */
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
+    protected void configure(final HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .cors()
                 .and()
@@ -37,8 +42,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID");
     }
 
+    /**
+     * Configure auth.
+     */
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(final AuthenticationManagerBuilder auth)
+            throws Exception {
         auth
             .inMemoryAuthentication()
             .withUser("user")
@@ -50,17 +59,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .roles("USER", "ADMIN");
     }
 
+    /**
+     * CORS configuration.
+     *
+     * @return CorsConfigurationSource
+     */
     @Bean
-    CorsConfigurationSource corsConfigurationSource()
-    {
+    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
+        UrlBasedCorsConfigurationSource src =
+                new UrlBasedCorsConfigurationSource();
+        src.registerCorsConfiguration("/**", config);
+        return src;
     }
 }

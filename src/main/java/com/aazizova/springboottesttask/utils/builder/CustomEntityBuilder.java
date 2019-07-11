@@ -13,25 +13,46 @@ import java.util.stream.Collectors;
 
 import static com.google.code.siren4j.component.builder.EntityBuilder.createEntityBuilder;
 
+/**
+ * Custom entity builder.
+ */
 @Component
 public class CustomEntityBuilder {
-
+    /**
+     * Custom link builder.
+     */
     @Autowired
-    CustomLinkBuilder customLinkBuilder;
+    private CustomLinkBuilder customLinkBuilder;
 
+    /**
+     * Custom action builder.
+     */
     @Autowired
-    CustomActionBuilder customActionBuilder;
+    private CustomActionBuilder customActionBuilder;
 
-    public Entity buildErrorEntity(HttpStatus httpStatus, String message) {
+    /**
+     * Builds error entity.
+     *
+     * @param httpStatus HttpStatus
+     * @param msg String
+     *
+     * @return Entity
+     */
+    public Entity errorEntity(final HttpStatus httpStatus, final String msg) {
         return createEntityBuilder()
                 .setComponentClass("error")
                 .addProperty("status", httpStatus)
                 .addProperty("code", httpStatus.value())
-                .addProperty("message", message)
+                .addProperty("message", msg)
                 .build();
     }
 
-    public Entity buildSuccessEntity() {
+    /**
+     * Builds success entity.
+     *
+     * @return Entity
+     */
+    public Entity successEntity() {
         return createEntityBuilder()
                 .setComponentClass("response")
                 .addProperty("status", HttpStatus.OK)
@@ -40,23 +61,46 @@ public class CustomEntityBuilder {
                 .build();
     }
 
-    public Entity buildProductEntity(Product product, HttpServletRequest request) {
+    /**
+     * Builds product entity.
+     *
+     * @param product Product
+     * @param req HttpServletRequest
+     *
+     * @return Entity
+     */
+    private Entity productEntity(final Product product,
+                                 final HttpServletRequest req) {
         return EntityBuilder.newInstance().setRelationship("product")
                 .addProperty(Product.FIELD_ID, product.getId())
                 .addProperty(Product.FIELD_NAME, product.getName())
                 .addProperty(Product.FIELD_BRAND, product.getBrand())
                 .addProperty(Product.FIELD_PRICE, product.getPrice())
                 .addProperty(Product.FIELD_QUANTITY, product.getQuantity())
-                .addLink(customLinkBuilder. createProductLink(product, request))
+                .addLink(customLinkBuilder.productLink(product, req))
                 .build();
     }
 
-    public Entity buildProductsEntity(List<Product> products, HttpServletRequest request, String type) {
-        final List<Entity> productsEntities = products.stream().map(product -> buildProductEntity(product, request)).collect(Collectors.toList());
+    /**
+     * Builds products entity.
+     *
+     * @param products List<Product>
+     * @param request HttpServletRequest
+     * @param type String
+     *
+     * @return Entity
+     */
+    public final Entity productsEntity(final List<Product> products,
+                                       final HttpServletRequest request,
+                                       final String type) {
+        final List<Entity> productsEntities = products
+                .stream()
+                .map(product -> productEntity(product, request))
+                .collect(Collectors.toList());
         return EntityBuilder.newInstance()
                 .setComponentClass(type)
                 .addSubEntities(productsEntities)
-                .addActions(customActionBuilder.buildActions())
+                .addActions(customActionBuilder.actions())
                 .build();
     }
 }
