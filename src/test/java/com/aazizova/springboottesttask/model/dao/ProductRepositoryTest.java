@@ -23,7 +23,7 @@ public class ProductRepositoryTest {
     @Test
     public void testGetProductById() throws Exception {
         this.testEntityManager.merge(new Product(1, "productName", "productBrand", 1.0, 1L));
-        Product product = this.productRepository.getProductById(1L);
+        Product product = this.productRepository.productWithId(1L);
         assertTrue(product.getName().equalsIgnoreCase("productName"));
         assertTrue(product.getBrand().equalsIgnoreCase("productBrand"));
         assertEquals(product.getPrice(), 1.0, 0);

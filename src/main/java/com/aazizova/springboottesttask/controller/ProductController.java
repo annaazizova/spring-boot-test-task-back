@@ -15,12 +15,22 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Product controller.
+ */
 @RestController
 @RequestMapping("/api/products")
 @Log4j2
@@ -28,14 +38,23 @@ import java.util.List;
 @Api(value = "Simple Inventory System",
         description = "Operations for products in Simple Inventory System")
 public class ProductController {
+    /**
+     * Product service.
+     */
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
+    /**
+     * Product utils.
+     */
     @Autowired
-    ProductUtils productUtils;
+    private ProductUtils productUtils;
 
+    /**
+     * Custom entity builder.
+     */
     @Autowired
-    CustomEntityBuilder customEntityBuilder;
+    private CustomEntityBuilder customEntityBuilder;
 
     /**
      * Returns entity of all products.
@@ -62,7 +81,7 @@ public class ProductController {
     public Entity products(final HttpServletRequest req)
             throws Siren4JException {
         log.info("Getting products");
-        List<Product> products = productService.retrieveProducts();
+        List<Product> products = productService.products();
         if (products.isEmpty()) {
             log.info("There are no products");
             return customEntityBuilder.errorEntity(HttpStatus.NO_CONTENT,
@@ -94,6 +113,15 @@ public class ProductController {
         return ReflectingConverter.newInstance().toEntity(product);
     }
 
+    /**
+     * Add product.
+     *
+     * @param product Product
+     *
+     * @throws Siren4JException Siren4JException
+     *
+     * @return Entity
+     */
     @PostMapping("/")
     @Secured("ROLE_ADMIN")
     public Entity addProduct(final @RequestBody Product product)
@@ -127,7 +155,7 @@ public class ProductController {
     }
 
     /**
-     * Returns entity of updated product. //TODO check all comments like this
+     * Returns entity of updated product.
      *
      * @param product product
      * @param id id of product
@@ -149,9 +177,16 @@ public class ProductController {
         return customEntityBuilder.successEntity();
     }
 
+    /**
+     * Export products.
+     *
+     * @param products List<Product>
+     *
+     * @return Entity
+     */
     @PostMapping("/export")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public Entity exportProducts(@RequestBody List<Product> products) {
+    public Entity exportProducts(final @RequestBody List<Product> products) {
         log.info("products = [" + products + "]");
         log.info("Exporting filtered products");
         if (!productUtils.exportToXLS(products)) {
@@ -162,11 +197,18 @@ public class ProductController {
         return customEntityBuilder.successEntity();
     }
 
+    /**
+     * Leftovers.
+     *
+     * @param request HttpServletRequest
+     *
+     * @return Entity
+     */
     @GetMapping("/leftovers")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Entity leftovers(final HttpServletRequest request) {
         log.info("Getting leftovers");
-        List<Product> leftovers = productService.retrieveLeftovers();
+        List<Product> leftovers = productService.leftovers();
         if (leftovers.isEmpty()) {
             log.info("There are no leftovers");
             return customEntityBuilder.errorEntity(HttpStatus.NO_CONTENT,

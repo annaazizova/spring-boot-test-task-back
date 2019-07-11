@@ -8,15 +8,38 @@ import javax.servlet.http.HttpServletRequest;
 
 import static com.google.code.siren4j.component.builder.LinkBuilder.createLinkBuilder;
 
+/**
+ * Custom link builder.
+ */
 @Component
 public class CustomLinkBuilder {
+    /**
+     * Self rel.
+     */
     private static final String SELF_REL = "self";
 
-    public Link createProductLink(Product product, HttpServletRequest httpServletRequest) {
-        return createResourceUri(product.getId(), httpServletRequest.getRequestURI());
+    /**
+     * Product link.
+     *
+     * @param product Product
+     * @param req HttpServletRequest
+     *
+     * @return Link
+     */
+    public Link productLink(final Product product,
+                            final HttpServletRequest req) {
+        return resourceUri(product.getId(), req.getRequestURI());
     }
 
-    private Link createResourceUri(long id, String requestURI) {
+    /**
+     * Resource link.
+     *
+     * @param id Long
+     * @param requestURI String
+     *
+     * @return Link
+     */
+    private Link resourceUri(final Long id, final String requestURI) {
         return createLinkBuilder()
                 .setHref(requestURI.concat(String.valueOf(id)))
                 .setRelationship(SELF_REL).build();

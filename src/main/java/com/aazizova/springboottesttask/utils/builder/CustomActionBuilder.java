@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Custom action builder.
+ */
 @Component
 public final class CustomActionBuilder {
     /**
@@ -80,7 +83,12 @@ public final class CustomActionBuilder {
                 .build();
     }
 
-    public List<Action> buildActions() {
+    /**
+     * No field action.
+     *
+     * @return List<Action>
+     */
+    public List<Action> actions() {
         List<Action> actions = new ArrayList<>();
         actions.add(action("add-product",
                 "Create new product",

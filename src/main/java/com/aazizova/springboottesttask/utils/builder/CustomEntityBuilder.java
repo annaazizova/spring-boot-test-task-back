@@ -13,14 +13,22 @@ import java.util.stream.Collectors;
 
 import static com.google.code.siren4j.component.builder.EntityBuilder.createEntityBuilder;
 
+/**
+ * Custom entity builder.
+ */
 @Component
 public class CustomEntityBuilder {
-
+    /**
+     * Custom link builder.
+     */
     @Autowired
-    CustomLinkBuilder customLinkBuilder;
+    private CustomLinkBuilder customLinkBuilder;
 
+    /**
+     * Custom action builder.
+     */
     @Autowired
-    CustomActionBuilder customActionBuilder;
+    private CustomActionBuilder customActionBuilder;
 
     /**
      * Builds error entity.
@@ -69,7 +77,7 @@ public class CustomEntityBuilder {
                 .addProperty(Product.FIELD_BRAND, product.getBrand())
                 .addProperty(Product.FIELD_PRICE, product.getPrice())
                 .addProperty(Product.FIELD_QUANTITY, product.getQuantity())
-                .addLink(customLinkBuilder. createProductLink(product, req))
+                .addLink(customLinkBuilder.productLink(product, req))
                 .build();
     }
 
@@ -92,7 +100,7 @@ public class CustomEntityBuilder {
         return EntityBuilder.newInstance()
                 .setComponentClass(type)
                 .addSubEntities(productsEntities)
-                .addActions(customActionBuilder.buildActions())
+                .addActions(customActionBuilder.actions())
                 .build();
     }
 }

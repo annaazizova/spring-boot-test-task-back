@@ -8,43 +8,44 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Product service impl.
+ */
 @Service
-public class ProductServiceImpl implements ProductService {
+public final class ProductServiceImpl implements ProductService {
+    /**
+     * Product repository.
+     */
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Override
-    public List<Product> retrieveProducts() {
+    public List<Product> products() {
         return productRepository.findAll();
     }
 
     @Override
-    public Product productWithId(Long productId) {
-        return productRepository.getProductById(productId);
+    public Product productWithId(final Long id) {
+        return productRepository.productWithId(id);
     }
 
     @Override
-    public void addProduct(Product product) {
+    public void addProduct(final Product product) {
         productRepository.save(product);
     }
 
     @Override
-    public void deleteProductById(Long productId) {
-        productRepository.deleteById(productId);
+    public void deleteProductById(final Long id) {
+        productRepository.deleteById(id);
     }
 
     @Override
-    public void updateProduct(Product product) {
+    public void updateProduct(final Product product) {
         productRepository.save(product);
     }
 
     @Override
-    public boolean isProductExist(Product product) {
-        return productRepository.existsById(product.getId());
-    }
-
-    @Override
-    public List<Product> retrieveLeftovers() {
-        return productRepository.getLeftovers();
+    public List<Product> leftovers() {
+        return productRepository.leftovers();
     }
 }

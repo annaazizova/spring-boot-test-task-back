@@ -4,18 +4,51 @@ import com.aazizova.springboottesttask.model.entity.Product;
 
 import java.util.List;
 
+/**
+ * Product service.
+ */
 public interface ProductService {
-    List<Product> retrieveProducts();
+    /**
+     * Products.
+     *
+     * @return List<Product>
+     */
+    List<Product> products();
 
-    Product productWithId(Long productId);
+    /**
+     * Product with id.
+     *
+     * @param id Long
+     *
+     * @return Product
+     */
+    Product productWithId(Long id);
 
+    /**
+     * Add product.
+     *
+     * @param product Product
+     */
     void addProduct(Product product);
 
-    void deleteProductById(Long productId);
+    /**
+     * Delete product with id.
+     *
+     * @param id Long
+     */
+    void deleteProductById(Long id);
 
+    /**
+     * Update product.
+     *
+     * @param product Product
+     */
     void updateProduct(Product product);
 
-    boolean isProductExist(Product product);
-
-    List<Product> retrieveLeftovers();
+    /**
+     * Leftovers.
+     *
+     * @return List<Product>
+     */
+    List<Product> leftovers();
 }

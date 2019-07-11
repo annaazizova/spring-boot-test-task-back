@@ -11,6 +11,9 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * Swagger config.
+ */
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
@@ -46,6 +49,12 @@ public class Swagger2Config {
                 .paths(PathSelectors.regex("/.*"))
                 .build().apiInfo(apiEndPointsInfo());
     }
+
+    /**
+     * Api end points info.
+     *
+     * @return ApiInfo
+     */
     private ApiInfo apiEndPointsInfo() {
         return new ApiInfoBuilder().title("Spring Boot Test Task API")
                 .description("Products Management REST API")
