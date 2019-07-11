@@ -19,8 +19,8 @@ The front part of this app is [spring-boot-test-task-front](https://github.com/a
   <li>Swagger2</li>
 </ul>
 
-**Built with**
-[Maven](https://maven.apache.org/)
+**Built with
+[Maven](https://maven.apache.org/), JaCoCo, Travis CI, Checkstyle**
 
 ## Features
 
