@@ -19,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(Long productId) {
+    public Product productWithId(Long productId) {
         return productRepository.getProductById(productId);
     }
 

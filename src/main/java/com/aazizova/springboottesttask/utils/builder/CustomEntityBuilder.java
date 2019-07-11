@@ -22,16 +22,29 @@ public class CustomEntityBuilder {
     @Autowired
     CustomActionBuilder customActionBuilder;
 
-    public Entity buildErrorEntity(HttpStatus httpStatus, String message) {
+    /**
+     * Builds error entity.
+     *
+     * @param httpStatus HttpStatus
+     * @param msg String
+     *
+     * @return Entity
+     */
+    public Entity errorEntity(final HttpStatus httpStatus, final String msg) {
         return createEntityBuilder()
                 .setComponentClass("error")
                 .addProperty("status", httpStatus)
                 .addProperty("code", httpStatus.value())
-                .addProperty("message", message)
+                .addProperty("message", msg)
                 .build();
     }
 
-    public Entity buildSuccessEntity() {
+    /**
+     * Builds success entity.
+     *
+     * @return Entity
+     */
+    public Entity successEntity() {
         return createEntityBuilder()
                 .setComponentClass("response")
                 .addProperty("status", HttpStatus.OK)
@@ -56,7 +69,7 @@ public class CustomEntityBuilder {
                 .addProperty(Product.FIELD_BRAND, product.getBrand())
                 .addProperty(Product.FIELD_PRICE, product.getPrice())
                 .addProperty(Product.FIELD_QUANTITY, product.getQuantity())
-                .addLink(customLinkBuilder. createProductLink(product, request))
+                .addLink(customLinkBuilder. createProductLink(product, req))
                 .build();
     }
 

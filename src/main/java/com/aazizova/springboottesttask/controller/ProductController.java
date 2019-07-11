@@ -123,7 +123,7 @@ public class ProductController {
                     + " because it's not found");
         }
         productService.deleteProductById(id);
-        return customEntityBuilder.buildSuccessEntity();
+        return customEntityBuilder.successEntity();
     }
 
     /**
@@ -146,7 +146,7 @@ public class ProductController {
                     "Product with id = [" + id + "] not found");
         }
         productService.updateProduct(product);
-        return customEntityBuilder.buildSuccessEntity();
+        return customEntityBuilder.successEntity();
     }
 
     @PostMapping("/export")
@@ -159,7 +159,7 @@ public class ProductController {
             return customEntityBuilder.errorEntity(HttpStatus.NO_CONTENT,
                     "Can't export");
         }
-        return customEntityBuilder.buildSuccessEntity();
+        return customEntityBuilder.successEntity();
     }
 
     @GetMapping("/leftovers")
