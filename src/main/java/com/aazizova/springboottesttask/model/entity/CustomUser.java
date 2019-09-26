@@ -8,13 +8,29 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.ArrayList;
 
+/**
+ * Custom user.
+ */
 public class CustomUser extends User {
+    /**
+     * User service.
+     *
+     * @return UserService
+     */
     @Autowired
-    static UserService userService;
+    private static UserService userService;
 
-    public CustomUser(com.aazizova.springboottesttask.model.entity.User user) {
-        //super(user.getUsername(), user.getPassword(), userService.getGrantedAuthorities(user.getRoles()));
-        super(user.getUsername(), user.getPassword(), new ArrayList<GrantedAuthority>(){{
+    /**
+     * Custom user.
+     *
+     */
+    public CustomUser(final com.aazizova.springboottesttask.model.entity.User user) {
+        //super(user.getUsername(),
+        // user.getPassword(),
+        // userService.grantedAuthorities(user.getRoles()));
+        super(user.getUsername(),
+                user.getPassword(),
+                new ArrayList<GrantedAuthority>() { {
             add(new SimpleGrantedAuthority("ROLE_USER"));
         }});
     }

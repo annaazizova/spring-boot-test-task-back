@@ -15,22 +15,39 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * User service impl.
+ */
 @Service
 public class UserServiceImpl implements UserService {
+    /**
+     * User repository.
+     */
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Load user by name.
+     *
+     * @return UserDetails
+     */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByUsername(username);
+    public UserDetails loadUserByUsername(final String username)
+            throws UsernameNotFoundException {
+        User user = userRepository.userWithUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
         return new CustomUser(user);
     }
 
+    /**
+     * Get granted authorities.
+     *
+     * @return List<GrantedAuthority>
+     */
     @Override
-    public List<GrantedAuthority> getGrantedAuthorities(List<Role> roles) {
+    public List<GrantedAuthority> grantedAuthorities(final List<Role> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (Role role: roles) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));

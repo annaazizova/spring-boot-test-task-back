@@ -7,9 +7,19 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * User repository.
+ */
 @Transactional
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    /**
+     * User with username.
+     *
+     * @param username String
+     *
+     * @return User
+     */
     @Query("SELECT u FROM User u WHERE u.username = :username")
-    User findUserByUsername(@Param("username") String username);
+    User userWithUsername(@Param("username") String username);
 }

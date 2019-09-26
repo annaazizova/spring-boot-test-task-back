@@ -36,15 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    protected void configure(final HttpSecurity httpSecurity) throws Exception {
     @Autowired
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
+    protected void configure(final HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .cors()
                 .and()
@@ -80,7 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(final WebSecurity web) throws Exception {
         web.ignoring()
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",

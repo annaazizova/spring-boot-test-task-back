@@ -69,6 +69,11 @@ public class Swagger2Config {
                 .build();
     }
 
+    /**
+     * Security context.
+     *
+     * @return SecurityContext
+     */
     private SecurityContext securityContext() {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
@@ -76,6 +81,11 @@ public class Swagger2Config {
                 .build();
     }
 
+    /**
+     * Default auth.
+     *
+     * @return List<SecurityReference>
+     */
     List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope
                 = new AuthorizationScope("global", "accessEverything");
@@ -85,10 +95,21 @@ public class Swagger2Config {
                 new SecurityReference("JWT", authorizationScopes));
     }
 
+    /**
+     * Security schema.
+     *
+     * @return OAuth
+     */
     private OAuth securitySchema() {
-        List<AuthorizationScope> authorizationScopeList = Collections.singletonList(new AuthorizationScope("READ", "descr"));
-        ResourceOwnerPasswordCredentialsGrant resourceOwnerPasswordCredentialsGrant = new ResourceOwnerPasswordCredentialsGrant("http://localhost:8080/oauth/token");
-        List<GrantType> grantTypes = Collections.singletonList(resourceOwnerPasswordCredentialsGrant);
-        return new OAuth("securitySchemaOAuth2", authorizationScopeList, grantTypes);
+        List<AuthorizationScope> authorizationScopeList =
+                Collections.singletonList(new AuthorizationScope("READ",
+                        "descr"));
+        ResourceOwnerPasswordCredentialsGrant resourceOwnerPasswordCredentialsGrant =
+                new ResourceOwnerPasswordCredentialsGrant("http://localhost:8080/oauth/token");
+        List<GrantType> grantTypes =
+                Collections.singletonList(resourceOwnerPasswordCredentialsGrant);
+        return new OAuth("securitySchemaOAuth2",
+                authorizationScopeList,
+                grantTypes);
     }
 }

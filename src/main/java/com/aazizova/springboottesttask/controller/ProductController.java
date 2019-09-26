@@ -1,6 +1,5 @@
 package com.aazizova.springboottesttask.controller;
 
-import com.aazizova.springboottesttask.config.Swagger2Config;
 import com.aazizova.springboottesttask.model.entity.Product;
 import com.aazizova.springboottesttask.service.ProductService;
 import com.aazizova.springboottesttask.utils.ProductUtils;
@@ -100,7 +99,6 @@ public class ProductController {
      *
      * @return Entity
      */
-    @GetMapping("/{id}")
     @ApiOperation(value = "Get product by id",
             response = Entity.class,
             authorizations = {@Authorization(value = "securitySchemaOAuth2")}
@@ -148,7 +146,6 @@ public class ProductController {
      *
      * @return Entity
      */
-    @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete product",
             response = Entity.class,
             authorizations = {@Authorization(value = "securitySchemaOAuth2")}
@@ -177,7 +174,6 @@ public class ProductController {
      *
      * @return Entity
      */
-    @PutMapping("/{id}")
     @ApiOperation(value = "Update product",
             response = Entity.class,
             authorizations = {@Authorization(value = "securitySchemaOAuth2")}
