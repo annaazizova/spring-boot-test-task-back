@@ -2,17 +2,12 @@
 
 This project is simple inventory system with different available functionality depending on user's role (User or Admin).
 
-## Front
-
-The front part of this app is [spring-boot-test-task-front](https://github.com/annaazizova/spring-boot-test-task-front)
-
 ## Tech/framework used
 
 <ul>
   <li>Java 8</li>
   <li>Spring Boot 2</li>
-  <li>Basic auth</li>
-  <li>JWT (<a href="https://github.com/annaazizova/spring-boot-test-task-back/tree/feat/jwt">feat/jwt</a> branch)</li>
+  <li>JWT</li>
   <li>H2</li>
   <li>Siren4J</li>
   <li>Lombok</li>
