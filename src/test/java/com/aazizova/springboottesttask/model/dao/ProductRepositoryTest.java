@@ -8,8 +8,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -28,5 +29,12 @@ public class ProductRepositoryTest {
         assertTrue(product.getBrand().equalsIgnoreCase("productBrand"));
         assertEquals(product.getPrice(), 1.0, 0);
         assertEquals(product.getQuantity(), 1L);
+    }
+
+    @Test
+    public void testDeleteById() throws Exception {
+        testEntityManager.merge(new Product(1, "productName", "productBrand", 1.0, 1L));
+        productRepository.deleteById(1L);
+        assertNull(productRepository.productWithId(1L));
     }
 }
