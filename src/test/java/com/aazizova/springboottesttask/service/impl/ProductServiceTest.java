@@ -33,7 +33,6 @@ public class ProductServiceTest {
         List<Product> expectedProducts = new ArrayList<>();
         expectedProducts.add(product);
         when(productRepository.findAll()).thenReturn(expectedProducts);
-
         List<Product> actualProducts = productService.products();
         assertNotNull(actualProducts);
         assertEquals(expectedProducts, actualProducts);
