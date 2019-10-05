@@ -20,7 +20,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * Product with id.
      *
      * @param id Long
-     *
      * @return Product
      */
     @Query("SELECT p FROM Product p WHERE p.id = :id")

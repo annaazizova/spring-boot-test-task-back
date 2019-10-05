@@ -22,8 +22,7 @@ public class CustomLinkBuilder {
      * Product link.
      *
      * @param product Product
-     * @param req HttpServletRequest
-     *
+     * @param req     HttpServletRequest
      * @return Link
      */
     public Link productLink(final Product product,
@@ -34,9 +33,8 @@ public class CustomLinkBuilder {
     /**
      * Resource link.
      *
-     * @param id Long
+     * @param id         Long
      * @param requestURI String
-     *
      * @return Link
      */
     private Link resourceUri(final Long id, final String requestURI) {

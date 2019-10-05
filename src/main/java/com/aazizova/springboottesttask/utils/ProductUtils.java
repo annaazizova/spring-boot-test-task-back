@@ -9,6 +9,8 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.FileOutputStream;
@@ -20,6 +22,11 @@ import java.util.List;
  */
 @Component
 public class ProductUtils {
+    /**
+     * Logger.
+     */
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(ProductUtils.class);
     /**
      * Zero.
      */
@@ -40,19 +47,19 @@ public class ProductUtils {
      * Four.
      */
     private static final int FOUR = 4;
+
     /**
      * Export products to XLS.
      *
      * @param products List<Product>
-     *
      * @return boolean
      */
     public boolean exportToXLS(final List<Product> products) {
-        String[] columns = {"Id", "Name", "Brand", "Price", "Quantity" };
+        String[] columns = {"Id", "Name", "Brand", "Price", "Quantity"};
         try {
             try (Workbook workbook = new HSSFWorkbook();
-                FileOutputStream fileOut
-                        = new FileOutputStream("filtered_products.xls")) {
+                 FileOutputStream fileOut
+                         = new FileOutputStream("filtered_products.xlsx")) {
                 Sheet sheet = workbook.createSheet("Users");
 
                 Font headerFont = workbook.createFont();
@@ -94,7 +101,7 @@ public class ProductUtils {
                 return true;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.warn("Can't export products: {}", e.getLocalizedMessage());
             return false;
         }
     }

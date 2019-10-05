@@ -57,10 +57,8 @@ public class ProductController {
      * Returns entity of all products.
      *
      * @param req HttpServletRequest
-     *
-     * @throws Siren4JException if something with siren format happened
-     *
      * @return Entity
+     * @throws Siren4JException if something with siren format happened
      */
     @ApiOperation(value = "View all products",
                     response = Entity.class,
@@ -94,10 +92,8 @@ public class ProductController {
      * Returns entity of product.
      *
      * @param id id of product
-     *
-     * @throws Siren4JException if something with siren format happened
-     *
      * @return Entity
+     * @throws Siren4JException if something with siren format happened
      */
     @ApiOperation(value = "Get product by id",
             response = Entity.class,
@@ -121,10 +117,8 @@ public class ProductController {
      * Add product.
      *
      * @param product Product
-     *
-     * @throws Siren4JException Siren4JException
-     *
      * @return Entity
+     * @throws Siren4JException Siren4JException
      */
     @ApiOperation(value = "Add new product",
             response = Entity.class,
@@ -143,7 +137,6 @@ public class ProductController {
      * Returns entity of deleted product.
      *
      * @param id id of product
-     *
      * @return Entity
      */
     @ApiOperation(value = "Delete product",
@@ -160,7 +153,7 @@ public class ProductController {
                     + " because it's not found");
             return customEntityBuilder.errorEntity(HttpStatus.NOT_FOUND,
                     "Unable to delete product with id = [" + id + "]"
-                    + " because it's not found");
+                            + " because it's not found");
         }
         productService.deleteProductById(id);
         return customEntityBuilder.successEntity();
@@ -170,8 +163,7 @@ public class ProductController {
      * Returns entity of updated product.
      *
      * @param product product
-     * @param id id of product
-     *
+     * @param id      id of product
      * @return Entity
      */
     @ApiOperation(value = "Update product",
@@ -197,14 +189,13 @@ public class ProductController {
      * Export products.
      *
      * @param products List<Product>
-     *
      * @return Entity
      */
     @ApiOperation(value = "Export products",
             response = Entity.class,
             authorizations = {@Authorization(value = "securitySchemaOAuth2")}
     )
-    @PostMapping("/export")
+    @GetMapping("/export")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Entity exportProducts(final @RequestBody List<Product> products) {
         log.info("products = [" + products + "]");
@@ -221,7 +212,6 @@ public class ProductController {
      * Leftovers.
      *
      * @param request HttpServletRequest
-     *
      * @return Entity
      */
     @ApiOperation(value = "Get leftovers",
