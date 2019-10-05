@@ -22,7 +22,7 @@ This project is simple inventory system with different available functionality d
 
 User is able to
 <ul>
-  <li>create, find, update, remove product</li>
+  <li>get all productы or one of them (but only Admin can create, update or delete product)</li>
   <li>see all leftovers</li>
   <li>export search result in an xlsx file</li>
   <li>healthcheck on <a href="http://localhost:8080/healthcheck">http://localhost:8080/healthcheck</a> (available without authorization)</li>
