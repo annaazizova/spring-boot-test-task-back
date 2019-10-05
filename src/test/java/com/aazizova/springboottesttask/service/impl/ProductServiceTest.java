@@ -47,24 +47,4 @@ public class ProductServiceTest {
         assertNotNull(actualProduct);
         assertEquals(expectedProduct, actualProduct);
     }
-
-    @Test
-    public void addProduct() throws Exception {
-
-    }
-
-    @Test
-    public void deleteProductById() throws Exception {
-
-    }
-
-    @Test
-    public void updateProduct() throws Exception {
-
-    }
-
-    @Test
-    public void leftovers() throws Exception {
-
-    }
 }
