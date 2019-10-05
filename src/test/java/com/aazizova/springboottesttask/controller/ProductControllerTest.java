@@ -56,7 +56,7 @@ public class ProductControllerTest {
     @Test
     @WithMockUser
     public void exportProductsTest() throws Exception {
-        this.mockMVC.perform(post("/api/products/export")
+        this.mockMVC.perform(get("/api/products/export")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(toJson(products)))
                 .andDo(print())
