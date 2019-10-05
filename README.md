@@ -8,7 +8,7 @@ This project is simple inventory system with different available functionality d
   <li>Java 8</li>
   <li>Spring Boot 2</li>
   <li>Basic auth</li>
-  <li>JWT <a href="https://github.com/annaazizova/spring-boot-test-task-back/tree/feat/jwt">feat/jwt branch</a></li>
+  <li>JWT (<a href="https://github.com/annaazizova/spring-boot-test-task-back/tree/feat/jwt">feat/jwt branch</a>)</li>
   <li>H2</li>
   <li>Siren4J</li>
   <li>Lombok</li>
