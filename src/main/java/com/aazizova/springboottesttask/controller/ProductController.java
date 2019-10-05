@@ -60,10 +60,8 @@ public class ProductController {
      * Returns entity of all products.
      *
      * @param req HttpServletRequest
-     *
-     * @throws Siren4JException if something with siren format happened
-     *
      * @return Entity
+     * @throws Siren4JException if something with siren format happened
      */
     @ApiOperation(value = "View all products", response = Entity.class)
     @ApiResponses(value = {
@@ -94,10 +92,8 @@ public class ProductController {
      * Returns entity of product.
      *
      * @param id id of product
-     *
-     * @throws Siren4JException if something with siren format happened
-     *
      * @return Entity
+     * @throws Siren4JException if something with siren format happened
      */
     @GetMapping("/{id}")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
@@ -117,10 +113,8 @@ public class ProductController {
      * Add product.
      *
      * @param product Product
-     *
-     * @throws Siren4JException Siren4JException
-     *
      * @return Entity
+     * @throws Siren4JException Siren4JException
      */
     @PostMapping("/")
     @Secured("ROLE_ADMIN")
@@ -135,7 +129,6 @@ public class ProductController {
      * Returns entity of deleted product.
      *
      * @param id id of product
-     *
      * @return Entity
      */
     @DeleteMapping("/{id}")
@@ -148,7 +141,7 @@ public class ProductController {
                     + " because it's not found");
             return customEntityBuilder.errorEntity(HttpStatus.NOT_FOUND,
                     "Unable to delete product with id = [" + id + "]"
-                    + " because it's not found");
+                            + " because it's not found");
         }
         productService.deleteProductById(id);
         return customEntityBuilder.successEntity();
@@ -158,8 +151,7 @@ public class ProductController {
      * Returns entity of updated product.
      *
      * @param product product
-     * @param id id of product
-     *
+     * @param id      id of product
      * @return Entity
      */
     @PutMapping("/{id}")
@@ -181,10 +173,9 @@ public class ProductController {
      * Export products.
      *
      * @param products List<Product>
-     *
      * @return Entity
      */
-    @PostMapping("/export")
+    @GetMapping("/export")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Entity exportProducts(final @RequestBody List<Product> products) {
         log.info("products = [" + products + "]");
@@ -201,7 +192,6 @@ public class ProductController {
      * Leftovers.
      *
      * @param request HttpServletRequest
-     *
      * @return Entity
      */
     @GetMapping("/leftovers")

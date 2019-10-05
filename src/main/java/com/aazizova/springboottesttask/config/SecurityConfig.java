@@ -49,14 +49,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final AuthenticationManagerBuilder auth)
             throws Exception {
         auth
-            .inMemoryAuthentication()
-            .withUser("user")
-            .password("{noop}password")
-            .roles("USER")
-            .and()
-            .withUser("admin")
-            .password("{noop}admin")
-            .roles("USER", "ADMIN");
+                .inMemoryAuthentication()
+                .withUser("user")
+                .password("{noop}password")
+                .roles("USER")
+                .and()
+                .withUser("admin")
+                .password("{noop}admin")
+                .roles("USER", "ADMIN");
     }
 
     /**
