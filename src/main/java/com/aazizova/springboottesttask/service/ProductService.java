@@ -19,7 +19,6 @@ public interface ProductService {
      * Product with id.
      *
      * @param id Long
-     *
      * @return Product
      */
     Product productWithId(Long id);

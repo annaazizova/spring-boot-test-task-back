@@ -20,11 +20,10 @@ public final class CustomActionBuilder {
     /**
      * Action.
      *
-     * @param name String
-     * @param title String
-     * @param method ActionImpl.Method
+     * @param name          String
+     * @param title         String
+     * @param method        ActionImpl.Method
      * @param additionalUri String
-     *
      * @return Action
      */
     private Action action(final String name,
@@ -38,36 +37,35 @@ public final class CustomActionBuilder {
                 .setHref("/api/products".concat(additionalUri))
                 .setType(MediaType.APPLICATION_JSON.getType())
                 .addField(FieldBuilder
-                            .newInstance()
-                            .setName(Product.FIELD_NAME)
-                            .setType(FieldType.TEXT)
-                            .build())
+                        .newInstance()
+                        .setName(Product.FIELD_NAME)
+                        .setType(FieldType.TEXT)
+                        .build())
                 .addField(FieldBuilder
-                            .newInstance()
-                            .setName(Product.FIELD_BRAND)
-                            .setType(FieldType.TEXT)
-                            .build())
+                        .newInstance()
+                        .setName(Product.FIELD_BRAND)
+                        .setType(FieldType.TEXT)
+                        .build())
                 .addField(FieldBuilder
-                            .newInstance()
-                            .setName(Product.FIELD_PRICE)
-                            .setType(FieldType.NUMBER)
-                            .build())
+                        .newInstance()
+                        .setName(Product.FIELD_PRICE)
+                        .setType(FieldType.NUMBER)
+                        .build())
                 .addField(FieldBuilder
-                            .newInstance()
-                            .setName(Product.FIELD_QUANTITY)
-                            .setType(FieldType.NUMBER)
-                            .build())
+                        .newInstance()
+                        .setName(Product.FIELD_QUANTITY)
+                        .setType(FieldType.NUMBER)
+                        .build())
                 .build();
     }
 
     /**
      * No field action.
      *
-     * @param name String
-     * @param title String
-     * @param method ActionImpl.Method
+     * @param name          String
+     * @param title         String
+     * @param method        ActionImpl.Method
      * @param additionalUri String
-     *
      * @return Action
      */
     private Action noFieldsAction(final String name,

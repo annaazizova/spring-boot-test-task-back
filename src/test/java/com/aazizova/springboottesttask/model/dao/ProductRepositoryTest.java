@@ -1,6 +1,7 @@
 package com.aazizova.springboottesttask.model.dao;
 
 import com.aazizova.springboottesttask.model.entity.Product;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@DataJpaTest(properties = {"spring.datasource.initialization-mode=never"})
 public class ProductRepositoryTest {
     @Autowired
     private TestEntityManager testEntityManager;
@@ -21,12 +25,18 @@ public class ProductRepositoryTest {
     private ProductRepository productRepository;
 
     @Test
-    public void testGetProductById() throws Exception {
-        this.testEntityManager.merge(new Product(1, "productName", "productBrand", 1.0, 1L));
-        Product product = this.productRepository.productWithId(1L);
-        assertTrue(product.getName().equalsIgnoreCase("productName"));
-        assertTrue(product.getBrand().equalsIgnoreCase("productBrand"));
-        assertEquals(product.getPrice(), 1.0, 0);
-        assertEquals(product.getQuantity(), 1L);
+    public void testDeleteById() throws Exception {
+        testEntityManager.merge(new Product(2L, "productName2", "productBrand2", 2.0, 2L));
+        productRepository.deleteById(2L);
+        assertNull(productRepository.productWithId(2L));
+    }
+
+    @Test
+    public void testGetLeftovers() throws Exception {
+        testEntityManager.merge(new Product(3L, "productName3", "productBrand3", 3.0, 5L));
+        testEntityManager.merge(new Product(4L, "productName4", "productBrand4", 4.0, 2L));
+        List<Product> products = productRepository.leftovers();
+        assertNotNull(products);
+        assertEquals(1, products.size());
     }
 }

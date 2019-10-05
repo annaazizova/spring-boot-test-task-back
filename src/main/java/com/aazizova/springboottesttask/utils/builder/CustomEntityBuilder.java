@@ -34,8 +34,7 @@ public class CustomEntityBuilder {
      * Builds error entity.
      *
      * @param httpStatus HttpStatus
-     * @param msg String
-     *
+     * @param msg        String
      * @return Entity
      */
     public Entity errorEntity(final HttpStatus httpStatus, final String msg) {
@@ -65,8 +64,7 @@ public class CustomEntityBuilder {
      * Builds product entity.
      *
      * @param product Product
-     * @param req HttpServletRequest
-     *
+     * @param req     HttpServletRequest
      * @return Entity
      */
     private Entity productEntity(final Product product,
@@ -85,9 +83,8 @@ public class CustomEntityBuilder {
      * Builds products entity.
      *
      * @param products List<Product>
-     * @param request HttpServletRequest
-     * @param type String
-     *
+     * @param request  HttpServletRequest
+     * @param type     String
      * @return Entity
      */
     public final Entity productsEntity(final List<Product> products,
