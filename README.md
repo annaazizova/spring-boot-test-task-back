@@ -7,7 +7,8 @@ This project is simple inventory system with different available functionality d
 <ul>
   <li>Java 8</li>
   <li>Spring Boot 2</li>
-  <li>JWT</li>
+  <li>Basic auth</li>
+  <li>JWT [feat/jwt branch](https://github.com/annaazizova/spring-boot-test-task-back/tree/feat/jwt)</li>
   <li>H2</li>
   <li>Siren4J</li>
   <li>Lombok</li>
@@ -31,3 +32,9 @@ User is able to
 ## How to use?
 
 Run maven app with `spring-boot:run` command on [http://localhost:8080](http://localhost:8080), main branch is [master](https://github.com/annaazizova/spring_boot_test_task_back). Login page is [http://localhost:8080/login](http://localhost:8080/login), after successful auth redirect to all products info.
+
+**Login/password
+
+Role User: user/password
+
+Role Admin: admin/admin
