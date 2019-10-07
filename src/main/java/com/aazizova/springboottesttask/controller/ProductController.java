@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,7 +64,9 @@ public class ProductController {
      * @return Entity
      * @throws Siren4JException if something with siren format happened
      */
-    @ApiOperation(value = "View all products", response = Entity.class)
+    @ApiOperation(value = "View all products",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "basicAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = HttpServletResponse.SC_OK,
                     message = "Successfully retrieved products"),
@@ -95,6 +98,9 @@ public class ProductController {
      * @return Entity
      * @throws Siren4JException if something with siren format happened
      */
+    @ApiOperation(value = "Get product",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "basicAuth")})
     @GetMapping("/{id}")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Entity product(final @PathVariable(name = "id") Long id)
@@ -116,6 +122,9 @@ public class ProductController {
      * @return Entity
      * @throws Siren4JException Siren4JException
      */
+    @ApiOperation(value = "Add product (only for admin)",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "basicAuth")})
     @PostMapping("/")
     @Secured("ROLE_ADMIN")
     public Entity addProduct(final @RequestBody Product product)
@@ -131,6 +140,9 @@ public class ProductController {
      * @param id id of product
      * @return Entity
      */
+    @ApiOperation(value = "Delete product (only for admin)",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "basicAuth")})
     @DeleteMapping("/{id}")
     @Secured("ROLE_ADMIN")
     public Entity deleteProduct(final @PathVariable(name = "id") Long id) {
@@ -154,6 +166,9 @@ public class ProductController {
      * @param id      id of product
      * @return Entity
      */
+    @ApiOperation(value = "Update product (only for admin)",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "basicAuth")})
     @PutMapping("/{id}")
     @Secured("ROLE_ADMIN")
     public Entity updateProduct(final @RequestBody Product product,
@@ -175,6 +190,9 @@ public class ProductController {
      * @param products List<Product>
      * @return Entity
      */
+    @ApiOperation(value = "Export products",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "basicAuth")})
     @GetMapping("/export")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Entity exportProducts(final @RequestBody List<Product> products) {
@@ -194,6 +212,9 @@ public class ProductController {
      * @param request HttpServletRequest
      * @return Entity
      */
+    @ApiOperation(value = "View leftovers",
+            response = Entity.class,
+            authorizations = {@Authorization(value = "basicAuth")})
     @GetMapping("/leftovers")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Entity leftovers(final HttpServletRequest request) {

@@ -32,7 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/api/products/")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/healthcheck")
+                .antMatchers("/v2/api-docs",
+                        "/configuration/**",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        "/api-docs/**",
+                        "/healthcheck")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
