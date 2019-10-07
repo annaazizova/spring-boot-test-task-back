@@ -3,9 +3,11 @@ package com.aazizova.springboottesttask.service.impl;
 import com.aazizova.springboottesttask.model.dao.ProductRepository;
 import com.aazizova.springboottesttask.model.entity.Product;
 import com.aazizova.springboottesttask.service.ProductService;
+import com.aazizova.springboottesttask.utils.ProductUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +20,12 @@ public final class ProductServiceImpl implements ProductService {
      */
     @Autowired
     private ProductRepository productRepository;
+
+    /**
+     * Product utils.
+     */
+    @Autowired
+    private ProductUtils productUtils;
 
     @Override
     public List<Product> products() {
@@ -47,5 +55,14 @@ public final class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> leftovers() {
         return productRepository.leftovers();
+    }
+
+    @Override
+    public boolean exportToXLSX(final List<Long> productIds) {
+        List<Product> products = new ArrayList<>();
+        for (Long productId : productIds) {
+            products.add(productRepository.productWithId(productId));
+        }
+        return productUtils.exportToXLSX(products);
     }
 }

@@ -2,7 +2,6 @@ package com.aazizova.springboottesttask.controller;
 
 import com.aazizova.springboottesttask.model.entity.Product;
 import com.aazizova.springboottesttask.service.ProductService;
-import com.aazizova.springboottesttask.utils.ProductUtils;
 import com.aazizova.springboottesttask.utils.builder.CustomEntityBuilder;
 import com.google.code.siren4j.component.Entity;
 import com.google.code.siren4j.converter.ReflectingConverter;
@@ -44,12 +43,6 @@ public class ProductController {
      */
     @Autowired
     private ProductService productService;
-
-    /**
-     * Product utils.
-     */
-    @Autowired
-    private ProductUtils productUtils;
 
     /**
      * Custom entity builder.
@@ -185,20 +178,21 @@ public class ProductController {
     }
 
     /**
-     * Export products.
+     * Export filtered products.
      *
-     * @param products List<Product>
+     * @param productIds List<Long>
      * @return Entity
      */
-    @ApiOperation(value = "Export products",
+    @ApiOperation(value = "Export filtered products",
             response = Entity.class,
             authorizations = {@Authorization(value = "basicAuth")})
-    @GetMapping("/export")
+    @GetMapping("/export/{productIds}")
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    public Entity exportProducts(final @RequestBody List<Product> products) {
-        log.info("products = [" + products + "]");
+    public Entity exportProducts(final @PathVariable(name = "productIds")
+                                             List<Long> productIds) {
+        log.info("productIds = [" + productIds + "]");
         log.info("Exporting filtered products");
-        if (!productUtils.exportToXLS(products)) {
+        if (!productService.exportToXLSX(productIds)) {
             log.info("Can't export");
             return customEntityBuilder.errorEntity(HttpStatus.NO_CONTENT,
                     "Can't export");

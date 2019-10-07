@@ -50,4 +50,12 @@ public interface ProductService {
      * @return List<Product>
      */
     List<Product> leftovers();
+
+    /**
+     * Export to XLSX file.
+     *
+     * @param productIds List<Long>
+     * @return boolean
+     */
+    boolean exportToXLSX(List<Long> productIds);
 }

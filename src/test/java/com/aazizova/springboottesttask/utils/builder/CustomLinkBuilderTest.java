@@ -41,7 +41,7 @@ public class CustomLinkBuilderTest {
         Link productLink = customLinkBuilder.productLink(product, httpServletRequest);
         assertNull(productLink.getTitle());
         assertNull(productLink.getType());
-        assertEquals("requestURI1", productLink.getHref());
+        assertEquals("requestURI/1", productLink.getHref());
         assertNotNull(productLink.getRel());
         assertEquals(1, productLink.getRel().length);
         assertEquals("self", productLink.getRel()[0]);

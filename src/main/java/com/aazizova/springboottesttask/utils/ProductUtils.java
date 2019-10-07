@@ -1,7 +1,6 @@
 package com.aazizova.springboottesttask.utils;
 
 import com.aazizova.springboottesttask.model.entity.Product;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -9,6 +8,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -49,15 +49,15 @@ public class ProductUtils {
     private static final int FOUR = 4;
 
     /**
-     * Export products to XLS.
+     * Export products to XLSX.
      *
      * @param products List<Product>
      * @return boolean
      */
-    public boolean exportToXLS(final List<Product> products) {
-        String[] columns = {"Id", "Name", "Brand", "Price", "Quantity"};
-        try {
-            try (Workbook workbook = new HSSFWorkbook();
+    public boolean exportToXLSX(final List<Product> products) {
+        if (!products.isEmpty()) {
+            String[] columns = {"Id", "Name", "Brand", "Price", "Quantity"};
+            try (Workbook workbook = new XSSFWorkbook();
                  FileOutputStream fileOut
                          = new FileOutputStream("filtered_products.xlsx")) {
                 Sheet sheet = workbook.createSheet("Users");
@@ -87,7 +87,8 @@ public class ProductUtils {
                     row.createCell(ONE).setCellValue(product.getName());
                     row.createCell(TWO).setCellValue(product.getBrand());
                     row.createCell(THREE).setCellValue(product.getPrice());
-                    row.createCell(FOUR).setCellValue(product.getQuantity());
+                    row.createCell(FOUR).setCellValue(product
+                            .getQuantity());
                 }
 
                 //Auto-size all the above columns
@@ -99,9 +100,12 @@ public class ProductUtils {
 
                 workbook.write(fileOut);
                 return true;
+            } catch (IOException e) {
+                LOGGER.warn("Can't export products: {}",
+                        e.getLocalizedMessage());
+                return false;
             }
-        } catch (IOException e) {
-            LOGGER.warn("Can't export products: {}", e.getLocalizedMessage());
+        } else {
             return false;
         }
     }

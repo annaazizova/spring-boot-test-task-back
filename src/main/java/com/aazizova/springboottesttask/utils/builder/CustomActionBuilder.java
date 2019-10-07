@@ -101,9 +101,9 @@ public final class CustomActionBuilder {
                 ActionImpl.Method.PUT,
                 "/{productId}"));
         actions.add(noFieldsAction("export-products",
-                "Export all product to xls file",
+                "Export all product to xlsx file",
                 ActionImpl.Method.GET,
-                "/export"));
+                "/export/{productIds}"));
         return actions;
     }
 }
