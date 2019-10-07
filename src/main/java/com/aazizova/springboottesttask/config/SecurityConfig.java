@@ -32,6 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/api/products/")
                 .and()
                 .authorizeRequests()
+                .antMatchers("/healthcheck")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
