@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -18,7 +19,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(properties = {"spring.datasource.initialization-mode=never"})
+@SpringBootTest
+@AutoConfigureTestDatabase
 public class ProductServiceTest {
 
     @InjectMocks
