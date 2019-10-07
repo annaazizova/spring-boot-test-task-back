@@ -39,7 +39,21 @@ public class CustomLinkBuilder {
      */
     private Link resourceUri(final Long id, final String requestURI) {
         return createLinkBuilder()
-                .setHref(requestURI.concat(String.valueOf(id)))
+                .setHref(checkTrailingSlash(requestURI)
+                        .concat(String.valueOf(id)))
                 .setRelationship(SELF_REL).build();
+    }
+
+    /**
+     * Check trailing slash.
+     *
+     * @param requestURI String
+     * @return String
+     */
+    private String checkTrailingSlash(final String requestURI) {
+        if (!requestURI.endsWith("/")) {
+            return requestURI.concat("/");
+        }
+        return requestURI;
     }
 }
