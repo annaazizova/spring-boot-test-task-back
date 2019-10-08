@@ -1,6 +1,7 @@
 package com.aazizova.springboottesttask.utils;
 
 import com.aazizova.springboottesttask.model.entity.Product;
+import lombok.extern.log4j.Log4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
@@ -9,8 +10,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.FileOutputStream;
@@ -21,12 +20,8 @@ import java.util.List;
  * Product utils.
  */
 @Component
+@Log4j
 public class ProductUtils {
-    /**
-     * Logger.
-     */
-    private static final Logger LOGGER =
-            LoggerFactory.getLogger(ProductUtils.class);
     /**
      * Zero.
      */
@@ -101,8 +96,8 @@ public class ProductUtils {
                 workbook.write(fileOut);
                 return true;
             } catch (IOException e) {
-                LOGGER.warn("Can't export products: {}",
-                        e.getLocalizedMessage());
+                log.warn("Can't export products: {}",
+                        e);
                 return false;
             }
         } else {
