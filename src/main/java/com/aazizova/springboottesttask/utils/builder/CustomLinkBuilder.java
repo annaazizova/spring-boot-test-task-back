@@ -19,6 +19,11 @@ public class CustomLinkBuilder {
     private static final String SELF_REL = "self";
 
     /**
+     * Products rel.
+     */
+    private static final String PRODUCTS_REL = "products";
+
+    /**
      * Product link.
      *
      * @param product Product
@@ -55,5 +60,27 @@ public class CustomLinkBuilder {
             return requestURI.concat("/");
         }
         return requestURI;
+    }
+
+    /**
+     * Product list link.
+     *
+     * @param req HttpServletRequest
+     * @return Link
+     */
+    public Link productListLink(final HttpServletRequest req) {
+        return productsResourceUri(req.getRequestURI());
+    }
+
+    /**
+     * Products resource uri.
+     *
+     * @param requestURI String
+     * @return Link
+     */
+    private Link productsResourceUri(final String requestURI) {
+        return createLinkBuilder()
+                .setHref(requestURI)
+                .setRelationship(PRODUCTS_REL).build();
     }
 }

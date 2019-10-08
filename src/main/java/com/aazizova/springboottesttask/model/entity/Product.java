@@ -1,6 +1,7 @@
 package com.aazizova.springboottesttask.model.entity;
 
 import com.google.code.siren4j.annotations.Siren4JEntity;
+import com.google.code.siren4j.annotations.Siren4JLink;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,10 @@ import javax.persistence.Table;
 @Table(name = "products")
 @NoArgsConstructor
 @AllArgsConstructor
-@Siren4JEntity(entityClass = "product", uri = "/api/products/{id}")
+@Siren4JEntity(entityClass = "product", uri = "/api/products/{id}",
+        links = {
+                @Siren4JLink(rel = "products", href = "/api/products")
+        })
 @FieldNameConstants
 public class Product {
     /**

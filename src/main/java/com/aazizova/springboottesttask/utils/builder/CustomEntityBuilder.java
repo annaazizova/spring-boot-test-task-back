@@ -2,6 +2,7 @@ package com.aazizova.springboottesttask.utils.builder;
 
 import com.aazizova.springboottesttask.model.entity.Product;
 import com.google.code.siren4j.component.Entity;
+import com.google.code.siren4j.component.Link;
 import com.google.code.siren4j.component.builder.EntityBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,12 +64,14 @@ public class CustomEntityBuilder {
     /**
      * Builds product entity.
      *
-     * @param product Product
-     * @param req     HttpServletRequest
+     * @param product      Product
+     * @param req          HttpServletRequest
+     * @param productsLink Link
      * @return Entity
      */
     private Entity productEntity(final Product product,
-                                 final HttpServletRequest req) {
+                                 final HttpServletRequest req,
+                                 final Link productsLink) {
         return EntityBuilder.newInstance().setRelationship("product")
                 .addProperty(Product.FIELD_ID, product.getId())
                 .addProperty(Product.FIELD_NAME, product.getName())
@@ -76,6 +79,7 @@ public class CustomEntityBuilder {
                 .addProperty(Product.FIELD_PRICE, product.getPrice())
                 .addProperty(Product.FIELD_QUANTITY, product.getQuantity())
                 .addLink(customLinkBuilder.productLink(product, req))
+                .addLink(productsLink)
                 .build();
     }
 
@@ -90,9 +94,12 @@ public class CustomEntityBuilder {
     public final Entity productsEntity(final List<Product> products,
                                        final HttpServletRequest request,
                                        final String type) {
+        final Link productsLink = customLinkBuilder.productListLink(request);
         final List<Entity> productsEntities = products
                 .stream()
-                .map(product -> productEntity(product, request))
+                .map(product -> productEntity(product,
+                        request,
+                        productsLink))
                 .collect(Collectors.toList());
         return EntityBuilder.newInstance()
                 .setComponentClass(type)
